@@ -3,7 +3,7 @@ Your Cyber Hacker
 
 ## Prerequisites
 
-- **JDK 21** – the build uses the Java 21 toolchain defined in `build.gradle`.
+- **JDK 21** – the build uses the Java 24 toolchain defined in `build.gradle`.
 - **Gradle Wrapper** – use the provided `./gradlew` script inside the `HackerPlatform-Backend` directory.
 
 ## Building
