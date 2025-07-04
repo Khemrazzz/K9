@@ -54,3 +54,15 @@ npm run dev
 ```
 
 This starts the app locally with hot reload enabled.
+
+### Configuring API_URL
+
+API requests from the UI rely on the `API_URL` environment variable. Create a
+`.env.local` file inside `HackerPlatform-UI` with the following contents:
+
+```bash
+API_URL=http://localhost:8080
+```
+
+Replace the URL with the address of your backend if different. The Next.js app
+will pick up this variable when you run `npm run dev`.
