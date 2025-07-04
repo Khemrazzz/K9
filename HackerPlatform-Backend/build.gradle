@@ -9,7 +9,10 @@ group = 'com.myorg.hackerplatform'
 version = '0.0.1-SNAPSHOT'
 
 java {
-	toolchain { languageVersion = JavaLanguageVersion.of(24) }
+    // Use Java 21, which is available in the Codex environment
+    toolchain {
+        languageVersion = JavaLanguageVersion.of(21)
+    }
 }
 
 repositories { mavenCentral() }
