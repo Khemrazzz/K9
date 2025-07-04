@@ -1,23 +1,19 @@
 package com.myorg.hackerplatform.auth;
 
-import com.myorg.hackerplatform.jwt.JwtUtil;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.authentication.AuthenticationManager;
-import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
-import org.springframework.security.core.Authentication;
+import com.myorg.hackerplatform.service.AuthService;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/api/auth")
 public class AuthController {
-    @Autowired private AuthenticationManager authManager;
-    @Autowired private JwtUtil jwtUtil;
+    private final AuthService authService;
+
+    public AuthController(AuthService authService) {
+        this.authService = authService;
+    }
 
     @PostMapping("/login")
     public String login(@RequestBody AuthRequest req) {
-        Authentication auth = authManager.authenticate(
-                new UsernamePasswordAuthenticationToken(req.getUsername(), req.getPassword())
-        );
-        return jwtUtil.generateToken(auth.getName());
+        return authService.login(req.getUsername(), req.getPassword());
     }
 }
