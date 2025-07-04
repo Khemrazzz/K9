@@ -1,0 +1,31 @@
+# Gradle directories
+.gradle/
+build/
+
+# Java class files
+*.class
+
+# IntelliJ IDEA
+.idea/
+*.iml
+*.ipr
+*.iws
+
+# Eclipse
+.project
+.classpath
+.settings/
+
+# VS Code
+.vscode/
+
+# NetBeans
+/nbproject/private/
+/nbbuild/
+/dist/
+/nbdist/
+/.nb-gradle/
+
+# Output directories
+out/
+bin/
