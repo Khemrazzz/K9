@@ -6,6 +6,16 @@ Your Cyber Hacker
 - **JDK 21** – the build uses the Java 21 toolchain defined in `build.gradle`.
 - **Gradle Wrapper** – use the provided `./gradlew` script inside the `HackerPlatform-Backend` directory.
 
+## Building
+
+From `HackerPlatform-Backend` run:
+
+```bash
+./gradlew build
+```
+
+This compiles the source and packages the jar under `build/libs/`.
+
 ## Running Tests
 
 From `HackerPlatform-Backend` run:
