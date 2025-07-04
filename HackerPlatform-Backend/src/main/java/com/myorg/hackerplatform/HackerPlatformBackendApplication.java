@@ -3,7 +3,7 @@ package com.myorg.hackerplatform;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
-@SpringBootApplication(scanBasePackages = "com.myorg.hackerplatform.HackerPlatform")
+@SpringBootApplication(scanBasePackages = "com.myorg.hackerplatform")
 public class HackerPlatformBackendApplication {
 
 	public static void main(String[] args) {
