@@ -36,6 +36,14 @@ To start the Spring Boot application execute:
 
 The service will start locally on the default port.
 
+## Configuration
+
+Set the backend JWT signing secret via the `JWT_SECRET` environment variable before running:
+
+```bash
+export JWT_SECRET=<your-base64-secret>
+```
+
 ## Frontend Development
 
 The Next.js UI lives under `HackerPlatform-UI`.
