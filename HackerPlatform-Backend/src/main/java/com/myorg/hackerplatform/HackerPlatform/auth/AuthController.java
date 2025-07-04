@@ -25,8 +25,10 @@ public class AuthController {
         return authService.login(req.getUsername(), req.getPassword());
     }
 
+    // Endpoint used by the frontend verifySession() helper to check the
+    // currently stored JWT and retrieve the associated user information.
     @GetMapping("/verify")
-    public ResponseEntity<?> verify(@RequestHeader(value = HttpHeaders.AUTHORIZATION, required = false) String authorization) {
+    public ResponseEntity<?> verifySession(@RequestHeader(value = HttpHeaders.AUTHORIZATION, required = false) String authorization) {
         if (authorization == null || !authorization.startsWith("Bearer ")) {
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
         }
