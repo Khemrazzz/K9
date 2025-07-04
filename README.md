@@ -35,3 +35,22 @@ To start the Spring Boot application execute:
 ```
 
 The service will start locally on the default port.
+
+## Frontend Development
+
+The Next.js UI lives under `HackerPlatform-UI`.
+
+Install dependencies once:
+
+```bash
+cd HackerPlatform-UI
+npm install
+```
+
+During development run:
+
+```bash
+npm run dev
+```
+
+This starts the app locally with hot reload enabled.
