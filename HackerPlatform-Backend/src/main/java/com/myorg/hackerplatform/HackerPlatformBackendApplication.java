@@ -1,4 +1,4 @@
-package com.myorg.hackerplatform.HackerPlatform.Backend;
+package com.myorg.hackerplatform;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
