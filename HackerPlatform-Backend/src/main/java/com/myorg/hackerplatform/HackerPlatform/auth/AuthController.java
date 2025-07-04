@@ -21,8 +21,3 @@ public class AuthController {
         return jwtUtil.generateToken(auth.getName());
     }
 }
-
-class AuthRequest {
-    private String username, password;
-    // getters & setters
-}
