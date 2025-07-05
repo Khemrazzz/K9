@@ -1,6 +1,7 @@
 package com.myorg.hackerplatform.auth;
 
 import com.myorg.hackerplatform.jwt.JwtUtil;
+import com.myorg.hackerplatform.repository.UserRepository;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
@@ -29,6 +30,9 @@ class AuthControllerVerifyTests {
 
     @MockBean
     private AuthService authService;
+
+    @MockBean
+    private UserRepository userRepository;
 
     @Autowired
     private JwtUtil jwtUtil;

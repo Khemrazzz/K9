@@ -1,8 +1,9 @@
 package com.myorg.hackerplatform.auth;
 
 import com.myorg.hackerplatform.jwt.JwtUtil;
-import com.myorg.hackerplatform.service.AuthService;
+import com.myorg.hackerplatform.model.User;
 import com.myorg.hackerplatform.repository.UserRepository;
+import com.myorg.hackerplatform.service.AuthService;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
@@ -10,22 +11,24 @@ import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Import;
-import org.springframework.http.MediaType;
+import org.springframework.http.HttpHeaders;
 import org.springframework.test.context.TestPropertySource;
 import org.springframework.test.util.ReflectionTestUtils;
 import org.springframework.test.web.servlet.MockMvc;
 
+import java.util.Optional;
+
 import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.Mockito.when;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 @WebMvcTest(AuthController.class)
 @AutoConfigureMockMvc(addFilters = false)
-@Import(AuthControllerLoginTests.TestConfig.class)
+@Import(AuthControllerUserDetailsTests.TestConfig.class)
 @TestPropertySource(properties = {"jwt.secret=lw8Jk7ZQHtN4+ov2X3KqFv8JrW4dKC5gG5tf1x8b1Qs=", "JWT_SECRET=lw8Jk7ZQHtN4+ov2X3KqFv8JrW4dKC5gG5tf1x8b1Qs=", "jwt.expirationMs=3600000"})
-class AuthControllerLoginTests {
+class AuthControllerUserDetailsTests {
 
     @Autowired
     private MockMvc mockMvc;
@@ -36,15 +39,29 @@ class AuthControllerLoginTests {
     @MockBean
     private UserRepository userRepository;
 
-    @Test
-    void loginValidUserReturns200() throws Exception {
-        when(authService.login(eq("alice"), eq("password"))).thenReturn("token");
+    @Autowired
+    private JwtUtil jwtUtil;
 
-        mockMvc.perform(post("/api/auth/login")
-                .contentType(MediaType.APPLICATION_JSON)
-                .content("{\"username\":\"alice\",\"password\":\"password\"}"))
+    @Test
+    void userValidTokenReturnsUserDetails() throws Exception {
+        String token = jwtUtil.generateToken("alice");
+        User user = new User();
+        user.setId(1L);
+        user.setUsername("alice");
+        when(userRepository.findByUsername(eq("alice"))).thenReturn(Optional.of(user));
+
+        mockMvc.perform(get("/api/auth/user")
+                .header(HttpHeaders.AUTHORIZATION, "Bearer " + token))
                 .andExpect(status().isOk())
-                .andExpect(content().string("token"));
+                .andExpect(jsonPath("$.user.id").value(1))
+                .andExpect(jsonPath("$.user.username").value("alice"));
+    }
+
+    @Test
+    void userInvalidTokenReturnsUnauthorized() throws Exception {
+        mockMvc.perform(get("/api/auth/user")
+                .header(HttpHeaders.AUTHORIZATION, "Bearer bad"))
+                .andExpect(status().isUnauthorized());
     }
 
     static class TestConfig {
