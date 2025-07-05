@@ -34,6 +34,9 @@ class AuthControllerVerifyTests {
     @MockBean
     private UserRepository userRepository;
 
+    @MockBean
+    private com.myorg.hackerplatform.service.RefreshTokenService refreshTokenService;
+
     @Autowired
     private JwtUtil jwtUtil;
 
@@ -64,3 +67,4 @@ class AuthControllerVerifyTests {
         }
     }
 }
+

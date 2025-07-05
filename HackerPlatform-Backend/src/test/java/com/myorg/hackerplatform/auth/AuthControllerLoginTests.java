@@ -37,6 +37,9 @@ class AuthControllerLoginTests {
     @MockBean
     private UserRepository userRepository;
 
+    @MockBean
+    private com.myorg.hackerplatform.service.RefreshTokenService refreshTokenService;
+
     @Test
     void loginValidUserReturns200() throws Exception {
         when(authService.login(eq("alice"), eq("password")))
@@ -60,3 +63,4 @@ class AuthControllerLoginTests {
         }
     }
 }
+
