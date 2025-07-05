@@ -1,9 +1,11 @@
 # K9
-Your Cyber Hacker
+Your Cyber Hacker... V1 <under dev>
+Linux Pro Master ...V2  <Under research>
+AI Powered Hacker...V3  <incoming>
 
 ## Prerequisites
 
-- **JDK 24** – the build uses the Java 24 toolchain defined in `build.gradle`.
+- **JDK 21** – the build uses the Java 21 toolchain defined in `build.gradle`.
 - **Gradle Wrapper** – use the provided `./gradlew` script inside the `HackerPlatform-Backend` directory.
 
 ## Building
