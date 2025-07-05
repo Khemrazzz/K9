@@ -22,7 +22,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @WebMvcTest(AuthController.class)
 @AutoConfigureMockMvc(addFilters = false)
 @Import(AuthControllerVerifyTests.TestConfig.class)
-@TestPropertySource(properties = {"jwt.secret=lw8Jk7ZQHtN4+ov2X3KqFv8JrW4dKC5gG5tf1x8b1Qs=", "JWT_SECRET=lw8Jk7ZQHtN4+ov2X3KqFv8JrW4dKC5gG5tf1x8b1Qs=", "jwt.expirationMs=3600000"})
+@TestPropertySource(properties = {"jwt.secret=lw8Jk7ZQHtN4+ov2X3KqFv8JrW4dKC5gG5tf1x8b1Qs=", "JWT_SECRET=lw8Jk7ZQHtN4+ov2X3KqFv8JrW4dKC5gG5tf1x8b1Qs=", "jwt.expirationMs=3600000", "jwt.refreshExpirationMs=604800000"})
 class AuthControllerVerifyTests {
 
     @Autowired
@@ -59,6 +59,7 @@ class AuthControllerVerifyTests {
             JwtUtil util = new JwtUtil();
             ReflectionTestUtils.setField(util, "secret", "lw8Jk7ZQHtN4+ov2X3KqFv8JrW4dKC5gG5tf1x8b1Qs=");
             ReflectionTestUtils.setField(util, "expirationMs", 3600000);
+            ReflectionTestUtils.setField(util, "refreshExpirationMs", 604800000);
             return util;
         }
     }

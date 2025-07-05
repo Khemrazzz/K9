@@ -16,6 +16,9 @@ public class JwtUtil {
     @Value("${jwt.expirationMs}")
     private int expirationMs;
 
+    @Value("${jwt.refreshExpirationMs}")
+    private int refreshExpirationMs;
+
     private SecretKey getSigningKey() {
         return Keys.hmacShaKeyFor(Decoders.BASE64.decode(secret));
     }
@@ -23,6 +26,17 @@ public class JwtUtil {
     public String generateToken(String username) {
         Date now = new Date();
         Date exp = new Date(now.getTime() + expirationMs);
+        return Jwts.builder()
+                .setSubject(username)
+                .setIssuedAt(now)
+                .setExpiration(exp)
+                .signWith(getSigningKey(), SignatureAlgorithm.HS256)
+                .compact();
+    }
+
+    public String generateRefreshToken(String username) {
+        Date now = new Date();
+        Date exp = new Date(now.getTime() + refreshExpirationMs);
         return Jwts.builder()
                 .setSubject(username)
                 .setIssuedAt(now)

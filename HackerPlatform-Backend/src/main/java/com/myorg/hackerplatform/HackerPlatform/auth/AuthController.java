@@ -4,6 +4,7 @@ import com.myorg.hackerplatform.service.AuthService;
 import com.myorg.hackerplatform.jwt.JwtUtil;
 import com.myorg.hackerplatform.repository.UserRepository;
 import com.myorg.hackerplatform.model.User;
+import com.myorg.hackerplatform.auth.AuthTokens;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.JwtException;
 import org.springframework.http.HttpHeaders;
@@ -25,7 +26,7 @@ public class AuthController {
     }
 
     @PostMapping("/login")
-    public String login(@RequestBody AuthRequest req) {
+    public AuthTokens login(@RequestBody AuthRequest req) {
         return authService.login(req.getUsername(), req.getPassword());
     }
 
