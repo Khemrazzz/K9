@@ -72,4 +72,30 @@ public class AuthController {
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
         }
     }
+
+    // Validates the provided JWT and returns the associated user details
+    @GetMapping("/validate")
+    public ResponseEntity<?> validate(@RequestHeader(value = HttpHeaders.AUTHORIZATION, required = false) String authorization) {
+        if (authorization == null || !authorization.startsWith("Bearer ")) {
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
+        }
+        String token = authorization.substring(7);
+        try {
+            Claims claims = jwtUtil.parseClaims(token);
+            String username = claims.getSubject();
+            return userRepository.findByUsername(username)
+                    .map(user -> ResponseEntity.ok(
+                            java.util.Map.of(
+                                    "user",
+                                    java.util.Map.of(
+                                            "id", user.getId(),
+                                            "username", user.getUsername()
+                                    )
+                            )
+                    ))
+                    .orElseGet(() -> ResponseEntity.status(HttpStatus.UNAUTHORIZED).build());
+        } catch (JwtException | IllegalArgumentException e) {
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
+        }
+    }
 }
