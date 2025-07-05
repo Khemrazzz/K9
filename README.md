@@ -54,6 +54,16 @@ property so no additional configuration is required.
 
 The Next.js UI lives under `HackerPlatform-UI`.
 
+Before running the frontend you must tell it where the backend is located. Define
+an `API_URL` environment variable pointing at your backend. The easiest way is
+to create a `.env.local` file inside `HackerPlatform-UI` with the line:
+
+```bash
+API_URL=http://localhost:8080
+```
+
+Adjust the URL if your backend runs elsewhere.
+
 Install dependencies once:
 
 ```bash
