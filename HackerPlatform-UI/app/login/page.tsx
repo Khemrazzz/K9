@@ -1,48 +1,33 @@
 'use client';
-import { useState } from 'react';
 import { useRouter } from 'next/navigation';
 
 export default function LoginPage() {
   const router = useRouter();
-  const [username, setUsername] = useState('');
-  const [password, setPassword] = useState('');
-  const [error, setError] = useState('');
 
-  async function handleSubmit(e: React.FormEvent) {
+  async function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault();
-    setError('');
+    const form = e.currentTarget;
     const res = await fetch('/api/auth/login', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ username, password })
+      body: JSON.stringify({
+        username: form.username.value,
+        password: form.password.value,
+      }),
     });
-    if (res.ok) {
-      router.push('/dashboard');
-    } else {
-      setError('Login failed');
-    }
+    if (res.ok) router.push('/dashboard');
   }
 
   return (
     <form onSubmit={handleSubmit}>
       <div>
         <label htmlFor="username">Username:</label>
-        <input
-          id="username"
-          value={username}
-          onChange={(e) => setUsername(e.target.value)}
-        />
+        <input id="username" name="username" autoFocus />
       </div>
       <div>
         <label htmlFor="password">Password:</label>
-        <input
-          id="password"
-          type="password"
-          value={password}
-          onChange={(e) => setPassword(e.target.value)}
-        />
+        <input id="password" type="password" name="password" />
       </div>
-      {error && <p>{error}</p>}
       <button type="submit">Login</button>
     </form>
   );
