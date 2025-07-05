@@ -38,11 +38,17 @@ The service will start locally on the default port.
 
 ## Configuration
 
-Set the backend JWT signing secret via the `JWT_SECRET` environment variable before running:
+The backend expects a signing key through the `jwt.secret` property. During
+development you can provide it by exporting an environment variable named
+`JWT_SECRET` before starting the application:
 
 ```bash
 export JWT_SECRET=<your-base64-secret>
+./gradlew bootRun
 ```
+
+Spring Boot automatically maps the `JWT_SECRET` variable to the `jwt.secret`
+property so no additional configuration is required.
 
 ## Frontend Development
 
@@ -72,5 +78,15 @@ API requests from the UI rely on the `API_URL` environment variable. Create a
 API_URL=http://localhost:8080
 ```
 
-Replace the URL with the address of your backend if different. The Next.js app
-will pick up this variable when you run `npm run dev`.
+Replace the URL with the address of your backend if different. With this file in
+place run the development server:
+
+```bash
+npm run dev
+```
+
+You can also override the value directly on the command line:
+
+```bash
+API_URL=http://localhost:8080 npm run dev
+```
