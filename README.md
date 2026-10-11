@@ -40,7 +40,7 @@ The service will start locally on the default port.
 
 ## Configuration
 
-The backend expects a signing key through the `jwt.secret` property. During
+The backend expects a signing key through the `JWT_SECRET` property. During
 development you can provide it by exporting an environment variable named
 `JWT_SECRET` before starting the application:
 
@@ -49,8 +49,18 @@ export JWT_SECRET=<your-base64-secret>
 ./gradlew bootRun
 ```
 
-Spring Boot automatically maps the `JWT_SECRET` variable to the `jwt.secret`
-property so no additional configuration is required.
+Spring Boot reads the `JWT_SECRET` variable directly, so no additional configuration is required.
+
+## Authentication Endpoints
+
+The backend exposes several endpoints under `/api/auth`:
+
+- `POST /api/auth/login` – obtain an access and refresh token pair.
+- `GET /api/auth/verify` – validate the current access token and session.
+- `GET /api/auth/user` – retrieve details for the authenticated user.
+- `GET /api/auth/validate` – returns user details if the token is valid.
+- `POST /api/auth/refresh` – **new** endpoint that issues a new access token using a valid refresh token.
+- `POST /api/auth/logout` – **new** endpoint that invalidates the provided refresh token.
 
 ## Frontend Development
 

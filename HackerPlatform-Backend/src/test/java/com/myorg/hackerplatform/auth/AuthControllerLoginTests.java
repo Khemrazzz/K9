@@ -25,7 +25,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @WebMvcTest(AuthController.class)
 @AutoConfigureMockMvc(addFilters = false)
 @Import(AuthControllerLoginTests.TestConfig.class)
-@TestPropertySource(properties = {"jwt.secret=lw8Jk7ZQHtN4+ov2X3KqFv8JrW4dKC5gG5tf1x8b1Qs=", "JWT_SECRET=lw8Jk7ZQHtN4+ov2X3KqFv8JrW4dKC5gG5tf1x8b1Qs=", "jwt.expirationMs=3600000", "jwt.refreshExpirationMs=604800000"})
+@TestPropertySource(properties = {"JWT_SECRET=lw8Jk7ZQHtN4+ov2X3KqFv8JrW4dKC5gG5tf1x8b1Qs=", "JWT_SECRET=lw8Jk7ZQHtN4+ov2X3KqFv8JrW4dKC5gG5tf1x8b1Qs=", "jwt.expirationMs=3600000", "jwt.refreshExpirationMs=604800000"})
 class AuthControllerLoginTests {
 
     @Autowired
@@ -36,6 +36,9 @@ class AuthControllerLoginTests {
 
     @MockBean
     private UserRepository userRepository;
+
+    @MockBean
+    private com.myorg.hackerplatform.service.RefreshTokenService refreshTokenService;
 
     @Test
     void loginValidUserReturns200() throws Exception {
@@ -60,3 +63,4 @@ class AuthControllerLoginTests {
         }
     }
 }
+
