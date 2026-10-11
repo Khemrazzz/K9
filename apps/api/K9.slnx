@@ -1,0 +1,4 @@
+<Solution>
+  <Project Path="K9.Api.Tests/K9.Api.Tests.csproj" />
+  <Project Path="K9.Api/K9.Api.csproj" />
+</Solution>

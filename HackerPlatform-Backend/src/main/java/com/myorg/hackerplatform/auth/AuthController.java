@@ -5,6 +5,7 @@ import com.myorg.hackerplatform.jwt.JwtUtil;
 import com.myorg.hackerplatform.repository.UserRepository;
 import com.myorg.hackerplatform.model.User;
 import com.myorg.hackerplatform.auth.AuthTokens;
+import com.myorg.hackerplatform.service.RefreshTokenService;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.JwtException;
 import org.springframework.http.HttpHeaders;
@@ -18,11 +19,14 @@ public class AuthController {
     private final AuthService authService;
     private final JwtUtil jwtUtil;
     private final UserRepository userRepository;
+    private final RefreshTokenService refreshTokenService;
 
-    public AuthController(AuthService authService, JwtUtil jwtUtil, UserRepository userRepository) {
+    public AuthController(AuthService authService, JwtUtil jwtUtil, UserRepository userRepository,
+                          RefreshTokenService refreshTokenService) {
         this.authService = authService;
         this.jwtUtil = jwtUtil;
         this.userRepository = userRepository;
+        this.refreshTokenService = refreshTokenService;
     }
 
     @PostMapping("/login")
@@ -97,5 +101,23 @@ public class AuthController {
         } catch (JwtException | IllegalArgumentException e) {
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
         }
+    }
+
+    @PostMapping("/refresh")
+    public ResponseEntity<?> refresh(@RequestBody RefreshRequest request) {
+        return refreshTokenService.validateRefreshToken(request.getRefreshToken())
+                .map(rt -> {
+                    String newAccess = jwtUtil.generateToken(rt.getUser().getUsername());
+                    refreshTokenService.deleteRefreshToken(request.getRefreshToken());
+                    String newRefresh = refreshTokenService.createRefreshToken(rt.getUser()).getToken();
+                    return ResponseEntity.ok(new AuthTokens(newAccess, newRefresh));
+                })
+                .orElseGet(() -> ResponseEntity.status(HttpStatus.UNAUTHORIZED).build());
+    }
+
+    @PostMapping("/logout")
+    public ResponseEntity<?> logout(@RequestBody RefreshRequest request) {
+        refreshTokenService.deleteRefreshToken(request.getRefreshToken());
+        return ResponseEntity.ok().build();
     }
 }
