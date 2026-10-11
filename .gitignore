@@ -43,3 +43,10 @@ pnpm-debug.log*
 .eslintcache
 .turbo/
 .pnpm-store/
+
+# Local secrets
+.env
+
+# .NET
+obj/
+TestResults/

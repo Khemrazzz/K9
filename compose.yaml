@@ -1,0 +1,102 @@
+# Local development infrastructure for K9.
+# Usage: copy .env.example to .env, set every password, then `docker compose up -d`.
+# Ports bind to 127.0.0.1 only; nothing here is exposed to the network.
+name: k9
+
+services:
+  postgres:
+    image: postgres:17.6-alpine
+    restart: unless-stopped
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: ${POSTGRES_SUPERUSER_PASSWORD:?set POSTGRES_SUPERUSER_PASSWORD in .env}
+      # Consumed by infrastructure/postgres/init/01-databases.sh on first start only.
+      K9_OWNER_PASSWORD: ${K9_OWNER_PASSWORD:?set K9_OWNER_PASSWORD in .env}
+      K9_APP_PASSWORD: ${K9_APP_PASSWORD:?set K9_APP_PASSWORD in .env}
+      KEYCLOAK_DB_PASSWORD: ${KEYCLOAK_DB_PASSWORD:?set KEYCLOAK_DB_PASSWORD in .env}
+    ports:
+      - "127.0.0.1:${K9_POSTGRES_PORT:-5432}:5432"
+    volumes:
+      - postgres-data:/var/lib/postgresql/data
+      - ./infrastructure/postgres/init:/docker-entrypoint-initdb.d:ro
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U postgres -d postgres"]
+      interval: 5s
+      timeout: 5s
+      retries: 20
+
+  keycloak:
+    image: quay.io/keycloak/keycloak:26.3.3
+    restart: unless-stopped
+    command: ["start-dev", "--import-realm"]
+    environment:
+      KC_DB: postgres
+      KC_DB_URL: jdbc:postgresql://postgres:5432/keycloak
+      KC_DB_USERNAME: keycloak
+      KC_DB_PASSWORD: ${KEYCLOAK_DB_PASSWORD:?set KEYCLOAK_DB_PASSWORD in .env}
+      # Fixed public URL so the token issuer is identical for the browser and the API.
+      KC_HOSTNAME: http://localhost:${K9_KEYCLOAK_PORT:-8081}
+      # Containers reach Keycloak as http://keycloak:8080. Backchannel endpoints (jwks, token)
+      # then resolve to that address while the issuer stays the public URL above.
+      KC_HOSTNAME_BACKCHANNEL_DYNAMIC: "true"
+      KC_HEALTH_ENABLED: "true"
+      KC_BOOTSTRAP_ADMIN_USERNAME: admin
+      KC_BOOTSTRAP_ADMIN_PASSWORD: ${KEYCLOAK_ADMIN_PASSWORD:?set KEYCLOAK_ADMIN_PASSWORD in .env}
+      # Substituted into the realm file at import time.
+      K9_WEB_CLIENT_SECRET: ${K9_WEB_CLIENT_SECRET:?set K9_WEB_CLIENT_SECRET in .env}
+      K9_DEV_USER_PASSWORD: ${K9_DEV_USER_PASSWORD:?set K9_DEV_USER_PASSWORD in .env}
+    ports:
+      - "127.0.0.1:${K9_KEYCLOAK_PORT:-8081}:8080"
+    volumes:
+      - ./infrastructure/keycloak/k9-realm.dev.json:/opt/keycloak/data/import/k9-realm.json:ro
+    depends_on:
+      postgres:
+        condition: service_healthy
+    healthcheck:
+      # The image has no curl; probe the management port with bash's /dev/tcp.
+      test:
+        - CMD
+        - bash
+        - -c
+        - "exec 3<>/dev/tcp/127.0.0.1/9000 && printf 'GET /health/ready HTTP/1.1\\r\\nHost: localhost\\r\\nConnection: close\\r\\n\\r\\n' >&3 && grep -q UP <&3"
+      interval: 10s
+      timeout: 5s
+      retries: 30
+      start_period: 30s
+
+  # The API in a container. Opt-in: `docker compose --profile api up -d --build`.
+  # For day-to-day development run it on the host with `dotnet run` instead (see README).
+  api-migrate:
+    profiles: ["api"]
+    build: ./apps/api
+    image: k9-api:dev
+    command: ["migrate"]
+    restart: "no"
+    environment:
+      ConnectionStrings__K9Migrations: Host=postgres;Port=5432;Database=k9;Username=k9_owner;Password=${K9_OWNER_PASSWORD};Gss Encryption Mode=Disable
+    depends_on:
+      postgres:
+        condition: service_healthy
+
+  api:
+    profiles: ["api"]
+    image: k9-api:dev
+    restart: unless-stopped
+    environment:
+      ConnectionStrings__K9: Host=postgres;Port=5432;Database=k9;Username=k9_app;Password=${K9_APP_PASSWORD};Gss Encryption Mode=Disable
+      # Tokens are validated against the public issuer the browser sees...
+      Auth__Authority: http://localhost:${K9_KEYCLOAK_PORT:-8081}/realms/k9
+      # ...while discovery and signing keys are fetched over the compose network.
+      Auth__MetadataAddress: http://keycloak:8080/realms/k9/.well-known/openid-configuration
+      # Local only: Keycloak is plain HTTP here. Never set this in a real deployment.
+      Auth__RequireHttpsMetadata: "false"
+    ports:
+      - "127.0.0.1:${K9_API_PORT:-5080}:8080"
+    depends_on:
+      api-migrate:
+        condition: service_completed_successfully
+      keycloak:
+        condition: service_healthy
+
+volumes:
+  postgres-data:
