@@ -4,10 +4,11 @@ import { expect, type BrowserContext, type Page } from "@playwright/test";
 import { seal, unseal } from "../src/lib/sealed";
 import type { Session } from "../src/lib/session";
 
-// Secrets come from the local env files, never from the repository.
+// Secrets come from the environment (CI generates throwaway ones per run) or, locally,
+// from the git-ignored env files. Never from the repository.
 function readEnv(path: string): Record<string, string> {
   if (!existsSync(path)) {
-    throw new Error(`Missing ${path}. See the README for end-to-end test setup.`);
+    return {};
   }
   return Object.fromEntries(
     readFileSync(path, "utf8")
@@ -17,11 +18,16 @@ function readEnv(path: string): Record<string, string> {
   );
 }
 
-const rootEnv = readEnv(resolve(__dirname, "../../../.env"));
-const webEnv = readEnv(resolve(__dirname, "../.env.local"));
+function setting(name: string, file: Record<string, string>): string {
+  const value = process.env[name] ?? file[name];
+  if (!value) {
+    throw new Error(`${name} is not set (environment or env file). See the README for end-to-end test setup.`);
+  }
+  return value;
+}
 
-export const devPassword = rootEnv.K9_DEV_USER_PASSWORD!;
-const sessionSecret = webEnv.K9_SESSION_SECRET!;
+export const devPassword = setting("K9_DEV_USER_PASSWORD", readEnv(resolve(__dirname, "../../../.env")));
+const sessionSecret = setting("K9_SESSION_SECRET", readEnv(resolve(__dirname, "../.env.local")));
 
 export const ALICE = "alice@acme.test";
 export const BOB = "bob@globex.test";

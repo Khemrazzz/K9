@@ -1,0 +1,41 @@
+# Reviewed gitleaks findings, ignored by exact fingerprint (commit:file:rule:line, or file:rule:line).
+# Any other finding fails CI.
+#
+# All are in the superseded Spring Boot prototype (HackerPlatform-Backend): an HS256 JWT signing key first
+# committed in application.properties (8dfd4ff, July 2025) and reused, with the value "dummy", in its tests.
+# Treat that key as compromised: never use it anywhere. If the prototype ever ran with it, rotate it there.
+# Deleting HackerPlatform-Backend removes the working-tree entries; the history entries stay until history is rewritten.
+
+2d991e3316e94a34fa4618bb29f4442aa8747110:HackerPlatform-Backend/src/test/java/com/myorg/hackerplatform/auth/AuthControllerRefreshTests.java:generic-api-key:34
+2d991e3316e94a34fa4618bb29f4442aa8747110:HackerPlatform-Backend/src/test/java/com/myorg/hackerplatform/auth/AuthControllerRefreshTests.java:generic-api-key:90
+3788065ffea0d8fe88f3ace191e54404b7a50c1d:HackerPlatform-Backend/src/test/java/com/myorg/hackerplatform/auth/AuthControllerLoginTests.java:generic-api-key:26
+3788065ffea0d8fe88f3ace191e54404b7a50c1d:HackerPlatform-Backend/src/test/java/com/myorg/hackerplatform/auth/AuthControllerLoginTests.java:generic-api-key:50
+3788065ffea0d8fe88f3ace191e54404b7a50c1d:HackerPlatform-Backend/src/test/java/com/myorg/hackerplatform/service/AuthServiceLoginTests.java:generic-api-key:16
+47d8fa169a6a819635a390da8e539378cec7a7e0:HackerPlatform-Backend/src/test/java/com/myorg/hackerplatform/auth/AuthControllerVerifyTests.java:generic-api-key:24
+774b11e96a88845a0625094a7336a23f23ab9cf2:HackerPlatform-Backend/src/test/java/com/myorg/hackerplatform/auth/AuthControllerLoginTests.java:generic-api-key:28
+774b11e96a88845a0625094a7336a23f23ab9cf2:HackerPlatform-Backend/src/test/java/com/myorg/hackerplatform/auth/AuthControllerRefreshTests.java:generic-api-key:34
+774b11e96a88845a0625094a7336a23f23ab9cf2:HackerPlatform-Backend/src/test/java/com/myorg/hackerplatform/auth/AuthControllerUserDetailsTests.java:generic-api-key:30
+774b11e96a88845a0625094a7336a23f23ab9cf2:HackerPlatform-Backend/src/test/java/com/myorg/hackerplatform/auth/AuthControllerValidateTests.java:generic-api-key:30
+774b11e96a88845a0625094a7336a23f23ab9cf2:HackerPlatform-Backend/src/test/java/com/myorg/hackerplatform/auth/AuthControllerVerifyTests.java:generic-api-key:25
+8dfd4ff7b22670263222a4e8928ab79b8bbebf65:HackerPlatform-Backend/src/main/resources/application.properties:generic-api-key:4
+afecce44ac5c8cb5e43c91664ef25daafed4bc86:HackerPlatform-Backend/src/test/java/com/myorg/hackerplatform/auth/AuthControllerUserDetailsTests.java:generic-api-key:30
+afecce44ac5c8cb5e43c91664ef25daafed4bc86:HackerPlatform-Backend/src/test/java/com/myorg/hackerplatform/auth/AuthControllerUserDetailsTests.java:generic-api-key:71
+c9c8561871ef93d0fa57580b27b1ea8b24d4ff3a:HackerPlatform-Backend/src/test/java/com/myorg/hackerplatform/auth/AuthControllerLoginTests.java:generic-api-key:28
+c9c8561871ef93d0fa57580b27b1ea8b24d4ff3a:HackerPlatform-Backend/src/test/java/com/myorg/hackerplatform/auth/AuthControllerUserDetailsTests.java:generic-api-key:30
+c9c8561871ef93d0fa57580b27b1ea8b24d4ff3a:HackerPlatform-Backend/src/test/java/com/myorg/hackerplatform/auth/AuthControllerVerifyTests.java:generic-api-key:25
+cfb5ec57b50316100bd0301d48bc341e432cdcf1:HackerPlatform-Backend/src/test/java/com/myorg/hackerplatform/auth/AuthControllerValidateTests.java:generic-api-key:30
+cfb5ec57b50316100bd0301d48bc341e432cdcf1:HackerPlatform-Backend/src/test/java/com/myorg/hackerplatform/auth/AuthControllerValidateTests.java:generic-api-key:71
+ee42a56a01719c67773278a900f21e69d803dc40:HackerPlatform-Backend/src/test/java/com/myorg/hackerplatform/auth/AuthControllerVerifyTests.java:generic-api-key:24
+ee42a56a01719c67773278a900f21e69d803dc40:HackerPlatform-Backend/src/test/java/com/myorg/hackerplatform/auth/AuthControllerVerifyTests.java:generic-api-key:56
+
+/scan/tree/HackerPlatform-Backend/src/test/java/com/myorg/hackerplatform/auth/AuthControllerLoginTests.java:generic-api-key:28
+/scan/tree/HackerPlatform-Backend/src/test/java/com/myorg/hackerplatform/auth/AuthControllerLoginTests.java:generic-api-key:59
+/scan/tree/HackerPlatform-Backend/src/test/java/com/myorg/hackerplatform/auth/AuthControllerRefreshTests.java:generic-api-key:34
+/scan/tree/HackerPlatform-Backend/src/test/java/com/myorg/hackerplatform/auth/AuthControllerRefreshTests.java:generic-api-key:90
+/scan/tree/HackerPlatform-Backend/src/test/java/com/myorg/hackerplatform/auth/AuthControllerUserDetailsTests.java:generic-api-key:30
+/scan/tree/HackerPlatform-Backend/src/test/java/com/myorg/hackerplatform/auth/AuthControllerUserDetailsTests.java:generic-api-key:74
+/scan/tree/HackerPlatform-Backend/src/test/java/com/myorg/hackerplatform/auth/AuthControllerValidateTests.java:generic-api-key:30
+/scan/tree/HackerPlatform-Backend/src/test/java/com/myorg/hackerplatform/auth/AuthControllerValidateTests.java:generic-api-key:74
+/scan/tree/HackerPlatform-Backend/src/test/java/com/myorg/hackerplatform/auth/AuthControllerVerifyTests.java:generic-api-key:25
+/scan/tree/HackerPlatform-Backend/src/test/java/com/myorg/hackerplatform/auth/AuthControllerVerifyTests.java:generic-api-key:63
+/scan/tree/HackerPlatform-Backend/src/test/java/com/myorg/hackerplatform/service/AuthServiceLoginTests.java:generic-api-key:20

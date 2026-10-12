@@ -1,3 +1,4 @@
+using K9.Api.Audit;
 using K9.Api.Tenancy;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Design;
@@ -9,6 +10,7 @@ public sealed class K9DbContext(DbContextOptions<K9DbContext> options) : DbConte
     public DbSet<Organization> Organizations => Set<Organization>();
     public DbSet<User> Users => Set<User>();
     public DbSet<Membership> Memberships => Set<Membership>();
+    public DbSet<AuditEventRecord> AuditEvents => Set<AuditEventRecord>();
 
     protected override void OnModelCreating(ModelBuilder model)
     {
@@ -38,6 +40,26 @@ public sealed class K9DbContext(DbContextOptions<K9DbContext> options) : DbConte
             e.HasOne(m => m.Organization).WithMany(o => o.Memberships).HasForeignKey(m => m.OrganizationId).OnDelete(DeleteBehavior.Cascade);
             e.HasOne(m => m.User).WithMany().HasForeignKey(m => m.UserId).OnDelete(DeleteBehavior.Cascade);
             e.HasIndex(m => m.UserId);
+        });
+
+        // No foreign keys: audit history must outlive the users and organizations it mentions.
+        model.Entity<AuditEventRecord>(e =>
+        {
+            e.ToTable("audit_events", t =>
+            {
+                t.HasCheckConstraint("ck_audit_events_outcome", "outcome IN ('success', 'denied', 'failure')");
+                t.HasCheckConstraint("ck_audit_events_action", "action ~ '^[a-z][a-z_]*(\\.[a-z][a-z_]*)+$'");
+                t.HasCheckConstraint("ck_audit_events_details", "details IS NULL OR jsonb_typeof(details) = 'object'");
+            });
+            e.Property(a => a.Id).UseIdentityAlwaysColumn();
+            e.Property(a => a.OccurredAt).HasDefaultValueSql("clock_timestamp()");
+            e.Property(a => a.Action).HasMaxLength(64);
+            e.Property(a => a.Outcome).HasMaxLength(16);
+            e.Property(a => a.ResourceType).HasMaxLength(64);
+            e.Property(a => a.ResourceId).HasMaxLength(128);
+            e.Property(a => a.CorrelationId).HasMaxLength(64);
+            e.Property(a => a.Details).HasColumnType("jsonb");
+            e.HasIndex(a => new { a.OrganizationId, a.Id }).IsDescending(false, true);
         });
     }
 

@@ -26,8 +26,8 @@ export async function GET(request: NextRequest) {
   try {
     result = await finishLogin(request.nextUrl.search, transaction);
   } catch (error) {
-    // Log the failure type only; never the URL, which carries the authorization code.
-    console.error(`Sign-in callback rejected: ${(error as Error).name}`);
+    // Never log the URL, which carries the authorization code.
+    console.error(`Sign-in callback rejected: ${describeError(error)}`);
     return fail("callback");
   }
 
@@ -35,4 +35,18 @@ export async function GET(request: NextRequest) {
   response.cookies.set(names.login, "", cookieOptions(config.secureCookies, 0));
   await writeSession(response.cookies, config, sessionFromTokens(result.sub, result.tokens), result.tokens.id_token);
   return response;
+}
+
+/**
+ * The error's type, code and message (e.g. "unexpected JWT iat claim value"), enough to
+ * diagnose a rejected sign-in. openid-client messages do not contain the code or tokens;
+ * anything token-shaped is masked anyway, and the message is truncated.
+ */
+function describeError(error: unknown): string {
+  if (!(error instanceof Error)) {
+    return "unknown error";
+  }
+  const code = "code" in error && typeof error.code === "string" ? ` [${error.code}]` : "";
+  const message = error.message.replace(/eyJ[\w-]+(\.[\w-]+){1,4}/g, "<token>").slice(0, 200);
+  return `${error.name}${code}: ${message}`;
 }
