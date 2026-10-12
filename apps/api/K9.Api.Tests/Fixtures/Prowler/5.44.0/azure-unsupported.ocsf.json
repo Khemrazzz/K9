@@ -1,0 +1,106 @@
+[{
+    "message": "Storage account k9storage allows shared key access.",
+    "metadata": {
+        "event_code": "storage_account_key_access_disabled",
+        "product": {
+            "name": "Prowler",
+            "uid": "prowler",
+            "vendor_name": "Prowler",
+            "version": "5.44.0"
+        },
+        "profiles": [
+            "cloud",
+            "datetime"
+        ],
+        "tenant_uid": "k9-tenant",
+        "version": "1.5.0"
+    },
+    "severity_id": 4,
+    "severity": "High",
+    "status": "New",
+    "status_code": "FAIL",
+    "status_detail": "Storage account k9storage allows shared key access.",
+    "status_id": 1,
+    "unmapped": {
+        "related_url": "",
+        "categories": [
+            "identity-access",
+            "secrets"
+        ],
+        "depends_on": [],
+        "related_to": [],
+        "additional_urls": [
+            "https://learn.microsoft.com/en-us/azure/storage/common/shared-key-authorization-prevent",
+            "https://www.trendmicro.com/cloudoneconformity-staging/knowledge-base/azure/StorageAccounts/disable-shared-key-authorization.html"
+        ],
+        "notes": "",
+        "compliance": {},
+        "scan_id": "01a05c69-4d00-773c-a3d3-4f89dda1494c",
+        "provider_uid": "00000000-0000-4000-8000-000000000001",
+        "provider": "azure"
+    },
+    "activity_name": "Create",
+    "activity_id": 1,
+    "finding_info": {
+        "analytic": {
+            "category": "storage",
+            "name": "Storage account has shared key access disabled",
+            "type": "Rule",
+            "type_id": 1,
+            "uid": "storage_account_key_access_disabled"
+        },
+        "created_time": 1788256800,
+        "created_time_dt": "2026-09-01T10:00:00Z",
+        "desc": "**Azure Storage accounts** are evaluated for whether **Shared Key (account key) authorization** is disabled, requiring identity-based access via **Microsoft Entra ID** and RBAC.",
+        "title": "Storage account has shared key access disabled",
+        "types": [],
+        "uid": "prowler-azure-storage_account_key_access_disabled-00000000-0000-4000-8000-000000000001-westeurope-k9storage"
+    },
+    "resources": [
+        {
+            "cloud_partition": "",
+            "region": "westeurope",
+            "data": {
+                "details": "",
+                "metadata": {}
+            },
+            "group": {
+                "name": "storage"
+            },
+            "labels": [],
+            "name": "k9storage",
+            "type": "microsoft.storage/storageaccounts",
+            "uid": "/subscriptions/00000000-0000-4000-8000-000000000001/resourceGroups/k9/providers/Microsoft.Storage/storageAccounts/k9storage"
+        }
+    ],
+    "category_name": "Findings",
+    "category_uid": 2,
+    "class_name": "Detection Finding",
+    "class_uid": 2004,
+    "cloud": {
+        "account": {
+            "name": "k9-sandbox",
+            "type": "Azure AD Account",
+            "type_id": 6,
+            "uid": "00000000-0000-4000-8000-000000000001",
+            "labels": []
+        },
+        "org": {
+            "name": "k9.test",
+            "uid": "k9-tenant"
+        },
+        "provider": "azure",
+        "region": "westeurope"
+    },
+    "remediation": {
+        "desc": "Disallow **Shared Key** and require **Microsoft Entra ID** with least-privilege RBAC for all data access.\n- Prefer user delegation SAS over account/service SAS\n- Apply Conditional Access and separation of duties\n- Monitor and phase out key-based clients; rotate and revoke unused keys",
+        "references": [
+            "https://hub.prowler.com/check/storage_account_key_access_disabled"
+        ]
+    },
+    "risk_details": "Allowing **Shared Key** undermines **confidentiality, integrity, and availability**:\n- A leaked key grants broad read/write/delete across the account\n- Access bypasses **RBAC** and Conditional Access, reducing accountability\n- Activity is hard to attribute, easing data exfiltration and tampering",
+    "time": 1788256800,
+    "time_dt": "2026-09-01T10:00:00Z",
+    "type_uid": 200401,
+    "type_name": "Detection Finding: Create"
+}]

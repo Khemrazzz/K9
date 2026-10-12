@@ -1,0 +1,115 @@
+[{
+    "message": "Block Public Access is not configured for the S3 Bucket k9-logs.",
+    "metadata": {
+        "event_code": "s3_bucket_level_public_access_block",
+        "product": {
+            "name": "Prowler",
+            "uid": "prowler",
+            "vendor_name": "Prowler",
+            "version": "5.44.0"
+        },
+        "profiles": [
+            "cloud",
+            "datetime"
+        ],
+        "tenant_uid": "",
+        "version": "1.5.0"
+    },
+    "severity_id": 4,
+    "severity": "High",
+    "status": "New",
+    "status_code": "FAIL",
+    "status_detail": "Block Public Access is not configured for the S3 Bucket k9-logs.",
+    "status_id": 1,
+    "unmapped": {
+        "related_url": "",
+        "categories": [
+            "internet-exposed"
+        ],
+        "depends_on": [],
+        "related_to": [],
+        "additional_urls": [
+            "https://www.trendmicro.com/trendaivisiononecloudriskmanagement/knowledge-base/aws/S3/bucket-public-access-block.html",
+            "https://docs.aws.amazon.com/AmazonS3/latest/userguide/access-control-block-public-access.html"
+        ],
+        "notes": "",
+        "compliance": {},
+        "scan_id": "01a08075-d100-79f7-af79-70264164d839",
+        "provider_uid": "111111111111",
+        "provider": "aws"
+    },
+    "activity_name": "Create",
+    "activity_id": 1,
+    "finding_info": {
+        "analytic": {
+            "category": "s3",
+            "name": "S3 bucket has Block Public Access with IgnorePublicAcls and RestrictPublicBuckets enabled at bucket or account level",
+            "type": "Rule",
+            "type_id": 1,
+            "uid": "s3_bucket_level_public_access_block"
+        },
+        "created_time": 1788861600,
+        "created_time_dt": "2026-09-08T10:00:00Z",
+        "desc": "**Amazon S3 buckets** are evaluated for **Block Public Access** settings, ensuring `ignore_public_acls` and `restrict_public_buckets` are enabled at the bucket or account scope.\n\n*Account-wide protections, when present, are treated as effective for the bucket.*",
+        "title": "S3 bucket has Block Public Access with IgnorePublicAcls and RestrictPublicBuckets enabled at bucket or account level",
+        "types": [
+            "Software and Configuration Checks/AWS Security Best Practices/Network Reachability",
+            "Software and Configuration Checks/Industry and Regulatory Standards/AWS Foundational Security Best Practices",
+            "Software and Configuration Checks/Industry and Regulatory Standards/CIS AWS Foundations Benchmark",
+            "Effects/Data Exposure"
+        ],
+        "uid": "prowler-aws-s3_bucket_level_public_access_block-111111111111-eu-west-1-k9-logs"
+    },
+    "resources": [
+        {
+            "cloud_partition": "aws",
+            "region": "eu-west-1",
+            "data": {
+                "details": "",
+                "metadata": {
+                    "name": "k9-logs",
+                    "region": "eu-west-1"
+                }
+            },
+            "group": {
+                "name": "s3"
+            },
+            "labels": [],
+            "name": "k9-logs",
+            "type": "AwsS3Bucket",
+            "uid": "arn:aws:s3:::k9-logs"
+        }
+    ],
+    "category_name": "Findings",
+    "category_uid": 2,
+    "class_name": "Detection Finding",
+    "class_uid": 2004,
+    "cloud": {
+        "account": {
+            "name": "k9-sandbox-1",
+            "type": "AWS Account",
+            "type_id": 10,
+            "uid": "111111111111",
+            "labels": []
+        },
+        "org": {
+            "name": "",
+            "ou_uid": "",
+            "ou_name": "",
+            "uid": ""
+        },
+        "provider": "aws",
+        "region": "eu-west-1"
+    },
+    "remediation": {
+        "desc": "Enable **Block Public Access** at account and bucket levels with `block_public_acls`, `ignore_public_acls`, `block_public_policy`, and `restrict_public_buckets` set to `true`. Apply **least privilege** and **defense in depth**. *If public access is required*, narrowly scope policies to fixed principals and conditions.",
+        "references": [
+            "https://hub.prowler.com/check/s3_bucket_level_public_access_block"
+        ]
+    },
+    "risk_details": "Absent **S3 Block Public Access**, public ACLs or broad policies can grant Internet or cross-account access.\n- Data disclosure (confidentiality)\n- Object overwrite or uploads (integrity)\n- Deletion or outages from misuse (availability)",
+    "time": 1788861600,
+    "time_dt": "2026-09-08T10:00:00Z",
+    "type_uid": 200401,
+    "type_name": "Detection Finding: Create"
+}]
