@@ -35,7 +35,7 @@ public sealed class K9ApiFactory : WebApplicationFactory<Program>, IAsyncLifetim
 
     public string AppConnectionString => ConnectionString("k9_app", AppPassword);
     public string SuperuserConnectionString => ConnectionString("postgres", "postgres");
-    private string OwnerConnectionString => ConnectionString("k9_owner", OwnerPassword);
+    public string OwnerConnectionString => ConnectionString("k9_owner", OwnerPassword);
 
     public async Task InitializeAsync()
     {

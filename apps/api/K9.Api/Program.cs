@@ -1,4 +1,5 @@
 using System.Text.Json.Serialization;
+using K9.Api.Audit;
 using K9.Api.Auth;
 using K9.Api.Data;
 using K9.Api.Organizations;
@@ -24,6 +25,9 @@ if (!builder.Environment.IsDevelopment())
 }
 
 builder.Services.AddK9Data(builder.Configuration);
+builder.Services.AddHttpContextAccessor();
+builder.Services.AddScoped<AuditLog>();
+builder.Services.AddExceptionHandler<AuditUnavailableHandler>();
 builder.Services.AddK9Authentication(builder.Configuration);
 builder.Services.AddScoped<IAuthorizationHandler, OrganizationRoleHandler>();
 builder.Services.AddAuthorizationBuilder()
@@ -37,6 +41,7 @@ builder.Services.AddHealthChecks().AddDbContextCheck<K9DbContext>("database", ta
 
 var app = builder.Build();
 
+app.UseK9CorrelationId();
 app.UseExceptionHandler();
 app.UseStatusCodePages();
 app.UseAuthentication();
@@ -46,6 +51,7 @@ app.UseAuthorization();
 app.MapHealthChecks("/health/live", new HealthCheckOptions { Predicate = _ => false }).AllowAnonymous();
 app.MapHealthChecks("/health/ready", new HealthCheckOptions { Predicate = c => c.Tags.Contains("ready") }).AllowAnonymous();
 app.MapOrganizationEndpoints();
+app.MapAuditEndpoints();
 
 await app.RunAsync();
 return 0;

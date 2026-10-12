@@ -50,3 +50,6 @@ pnpm-debug.log*
 # .NET
 obj/
 TestResults/
+
+# CI reports and test results
+/artifacts/

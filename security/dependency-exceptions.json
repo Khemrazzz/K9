@@ -1,0 +1,17 @@
+{
+  "$comment": "Known dependency advisories that cannot be fixed yet. CI fails on any advisory not listed here, on any listed advisory reaching production dependencies, and once reviewBy has passed. Remove an entry as soon as a fix is available.",
+  "npm": [
+    {
+      "advisory": "GHSA-vfj7-8cjw-p6xm",
+      "package": "braces",
+      "severity": "high",
+      "scope": "development only",
+      "path": "eslint-config-next > @next/eslint-plugin-next > fast-glob@3 > micromatch > braces@3.0.3",
+      "impact": "Stack-exhaustion denial of service when braces expands a deeply nested pattern. Only ESLint uses it, with glob patterns from our own configuration; it is not in the production bundle or the server, and attacker input never reaches it.",
+      "whyNotFixed": "No patched braces release exists (3.0.3 is the latest and is in the affected range). npm audit fix suggests downgrading eslint-config-next to 14, which is incorrect.",
+      "reviewWhen": "A patched braces or micromatch release, or eslint-config-next no longer depending on fast-glob@3.",
+      "reviewBy": "2027-01-31",
+      "accepted": "2026-10-12"
+    }
+  ]
+}

@@ -1,0 +1,162 @@
+# K9 continuous integration. Each job runs a script from scripts/ci/, so every stage can
+# be reproduced locally with the same command (see "CI" in the README).
+#
+# Security posture:
+# - Triggered by pull_request (never pull_request_target): code from a pull request,
+#   including forks, runs with a read-only token and no repository secrets.
+# - No job uses repository secrets. The e2e stack generates throwaway credentials per run.
+# - The workflow grants nothing by default; each job asks only for read access to code.
+# - Third-party actions are pinned to full commit SHAs (the comment shows the release).
+#   Container images are pinned by version, and gitleaks by digest.
+name: CI
+
+on:
+  pull_request:
+  push:
+    branches: [master, v2-foundation]
+  workflow_dispatch:
+
+permissions: {}
+
+concurrency:
+  group: ci-${{ github.ref }}
+  cancel-in-progress: ${{ github.event_name == 'pull_request' }}
+
+env:
+  DOTNET_CLI_TELEMETRY_OPTOUT: "1"
+  DOTNET_NOLOGO: "1"
+  NEXT_TELEMETRY_DISABLED: "1"
+  # Keep in step with apps/api/global.json and apps/web/package.json engines.
+  DOTNET_SDK_VERSION: "10.0.401"
+  NODE_VERSION: "22.19.0"
+
+jobs:
+  backend:
+    name: Backend build, tests and security gate
+    runs-on: ubuntu-24.04
+    timeout-minutes: 25
+    permissions:
+      contents: read
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+      - uses: actions/setup-dotnet@a98b56852c35b8e3190ac28c8c2271da59106c68 # v6.0.0
+        with:
+          dotnet-version: ${{ env.DOTNET_SDK_VERSION }}
+          cache: true
+          cache-dependency-path: apps/api/**/packages.lock.json
+      - uses: actions/setup-node@949feb2413d6458794dcd2491c4babbbce0c15c1 # v7.1.0
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+          package-manager-cache: false
+      - name: Build, test (real Postgres via Testcontainers) and verify security tests ran
+        run: bash scripts/ci/backend.sh
+      - name: Upload test results
+        if: failure()
+        uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9 # v7.0.2
+        with:
+          name: backend-test-results
+          path: artifacts/backend-tests
+          retention-days: 7
+          if-no-files-found: ignore
+
+  web:
+    name: Web typecheck, lint, unit tests and build
+    runs-on: ubuntu-24.04
+    timeout-minutes: 15
+    permissions:
+      contents: read
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+      - uses: actions/setup-node@949feb2413d6458794dcd2491c4babbbce0c15c1 # v7.1.0
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+          cache: npm
+          cache-dependency-path: apps/web/package-lock.json
+      - run: bash scripts/ci/web.sh
+
+  security:
+    name: Secret scanning and dependency audit
+    runs-on: ubuntu-24.04
+    timeout-minutes: 15
+    permissions:
+      contents: read
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+          fetch-depth: 0 # the secret scan covers the full history
+      - uses: actions/setup-dotnet@a98b56852c35b8e3190ac28c8c2271da59106c68 # v6.0.0
+        with:
+          dotnet-version: ${{ env.DOTNET_SDK_VERSION }}
+      - uses: actions/setup-node@949feb2413d6458794dcd2491c4babbbce0c15c1 # v7.1.0
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+          cache: npm
+          cache-dependency-path: apps/web/package-lock.json
+      - name: Install web dependencies (for npm audit)
+        run: npm ci --prefix apps/web --no-audit --no-fund --ignore-scripts
+      - run: bash scripts/ci/security.sh
+      - name: Upload scan reports (findings are redacted)
+        if: failure()
+        uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9 # v7.0.2
+        with:
+          name: security-reports
+          path: artifacts/security
+          retention-days: 7
+          if-no-files-found: ignore
+
+  e2e:
+    name: End-to-end against real Keycloak, API and Postgres
+    needs: [backend, web]
+    runs-on: ubuntu-24.04
+    timeout-minutes: 30
+    permissions:
+      contents: read
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+      - uses: actions/setup-node@949feb2413d6458794dcd2491c4babbbce0c15c1 # v7.1.0
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+          cache: npm
+          cache-dependency-path: apps/web/package-lock.json
+      - name: Disposable stack, Playwright and security gate
+        run: bash scripts/ci/e2e.sh
+      - name: Upload diagnostics (screenshots, report, container logs; no traces)
+        if: failure()
+        uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9 # v7.0.2
+        with:
+          name: e2e-diagnostics
+          path: |
+            artifacts/e2e
+            apps/web/test-results
+            apps/web/playwright-report
+          retention-days: 7
+          if-no-files-found: ignore
+
+  # One required check for branch protection. Fails unless every job succeeded, so a
+  # skipped, cancelled or failed stage can never produce a green result.
+  all-checks:
+    name: All checks passed
+    if: always()
+    needs: [backend, web, security, e2e]
+    runs-on: ubuntu-24.04
+    timeout-minutes: 5
+    permissions: {}
+    steps:
+      - name: Require success from every job
+        env:
+          RESULTS: ${{ join(needs.*.result, ' ') }}
+        run: |
+          echo "Job results: $RESULTS"
+          for result in $RESULTS; do
+            if [ "$result" != "success" ]; then
+              echo "::error::A required job did not succeed ($result)."
+              exit 1
+            fi
+          done

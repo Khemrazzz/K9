@@ -1,0 +1,47 @@
+{
+  "$comment": "Security guarantees that must be exercised on every CI run. verify-test-results.mjs fails if any listed test is missing, skipped or failing, or if the totals drop below the minimums, so a renamed, deleted or filtered-out security test cannot pass silently. Entries match test names by prefix.",
+  "backend": {
+    "minimumTotal": 96,
+    "required": {
+      "Invalid and expired JWTs are rejected": "K9.Api.Tests.AuthenticationTests.Invalid_token_is_rejected(because: \"expired\"",
+      "Wrong issuer is rejected": "K9.Api.Tests.AuthenticationTests.Invalid_token_is_rejected(because: \"wrong issuer\"",
+      "Wrong audience is rejected": "K9.Api.Tests.AuthenticationTests.Invalid_token_is_rejected(because: \"wrong audience\"",
+      "Untrusted signing keys are rejected": "K9.Api.Tests.AuthenticationTests.Invalid_token_is_rejected(because: \"signed by an untrusted key\"",
+      "Refresh tokens are not access tokens": "K9.Api.Tests.AuthenticationTests.Invalid_token_is_rejected(because: \"refresh token\"",
+      "ID tokens are not access tokens": "K9.Api.Tests.AuthenticationTests.Invalid_token_is_rejected(because: \"ID token\"",
+      "Cross-tenant API access is denied": "K9.Api.Tests.TenantIsolationTests.Member_of_one_organization_cannot_reach_another",
+      "RLS limits reads without application filters": "K9.Api.Tests.TenantIsolationTests.Database_returns_only_the_active_organizations_rows",
+      "RLS returns nothing without context": "K9.Api.Tests.TenantIsolationTests.Database_returns_nothing_without_a_request_context",
+      "RLS rejects cross-tenant writes": "K9.Api.Tests.TenantIsolationTests.Database_rejects_writes_into_another_organization",
+      "Pooled connections do not leak tenant context": "K9.Api.Tests.ConnectionPoolingTests.Tenant_settings_are_cleared_when_a_connection_returns_to_the_pool",
+      "Interleaved tenants never see each other": "K9.Api.Tests.ConnectionPoolingTests.Interleaved_concurrent_requests_from_two_tenants_never_see_each_other",
+      "Context survives transaction rollback": "K9.Api.Tests.TransactionContextTests.Context_set_inside_a_transaction_survives_its_rollback",
+      "Context survives savepoint rollback": "K9.Api.Tests.TransactionContextTests.Context_survives_a_rollback_to_savepoint",
+      "Admins cannot grant owner": "K9.Api.Tests.TenantIsolationTests.Admin_cannot_grant_owner",
+      "Role ceilings on membership changes": "K9.Api.Tests.MembershipManagementTests.Admins_cannot_raise_anyone_to_owner_or_touch_an_owner",
+      "Last owner is protected": "K9.Api.Tests.MembershipManagementTests.The_last_owner_cannot_be_demoted_or_removed",
+      "Last owner is protected under concurrency": "K9.Api.Tests.MembershipManagementTests.Concurrent_demotions_never_leave_an_organization_without_an_owner",
+      "Audit log is append-only": "K9.Api.Tests.AuditTests.History_cannot_be_changed_by_the_runtime_role_or_casually_by_the_owner",
+      "Audit writes cannot be spoofed": "K9.Api.Tests.AuditTests.The_write_function_rejects_spoofed_and_malformed_events",
+      "Audit reads are tenant-isolated": "K9.Api.Tests.AuditTests.Each_organization_sees_only_its_own_events_even_without_api_filters",
+      "Security changes fail closed without audit": "K9.Api.Tests.AuditTests.Security_changes_fail_closed_when_the_audit_log_is_unavailable",
+      "Rejected tokens are audited without token material": "K9.Api.Tests.AuditTests.Rejected_tokens_are_recorded_without_any_token_material",
+      "Definer functions pin their search_path": "K9.Api.Tests.SecurityHardeningTests.Definer_functions_pin_an_empty_search_path",
+      "Runtime role cannot change the schema": "K9.Api.Tests.TenantIsolationTests.Runtime_role_cannot_write_users_or_change_the_schema"
+    }
+  },
+  "e2e": {
+    "minimumTotal": 14,
+    "required": {
+      "Unauthenticated visitors get no data": "authentication > unauthenticated visitors are sent to sign in and get no data",
+      "Open redirects are refused": "authentication > returnTo cannot send the user to another site",
+      "Tampered sessions are signed out": "authentication > a tampered session cookie is treated as signed out",
+      "Tenants cannot open each other's organizations": "tenancy > Bob creates his own organization and cannot open Alice's",
+      "Expiring sessions refresh and rotate": "session lifecycle > an expiring access token is refreshed and the refresh token rotated",
+      "Rejected refresh forces sign-in": "session lifecycle > a session whose refresh is rejected must sign in again",
+      "Sign-out ends the session": "session lifecycle > sign-out ends the session here and at Keycloak, and the old refresh token stops working",
+      "Cross-site sign-out is refused": "request hardening > sign-out rejects cross-site requests",
+      "Tokens never reach the browser": "request hardening > tokens never reach the browser"
+    }
+  }
+}

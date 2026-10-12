@@ -1,3 +1,4 @@
+using K9.Api.Audit;
 using K9.Api.Data;
 using K9.Api.Tenancy;
 using Microsoft.AspNetCore.Authorization;
@@ -31,7 +32,7 @@ public static class OrganizationPolicies
 /// The organization ID in the URL is only a request. Membership is looked up from the
 /// database for the authenticated user; nothing the client sends is trusted on its own.
 /// </summary>
-public sealed class OrganizationRoleHandler(K9DbContext db, RequestContext context)
+public sealed class OrganizationRoleHandler(K9DbContext db, RequestContext context, AuditLog audit)
     : AuthorizationHandler<OrganizationRoleRequirement>
 {
     protected override async Task HandleRequirementAsync(
@@ -54,6 +55,26 @@ public sealed class OrganizationRoleHandler(K9DbContext db, RequestContext conte
         {
             context.EnterOrganization(organizationId, held);
             authorization.Succeed(requirement);
+            return;
         }
+
+        // A member refused a higher-privilege action is recorded in that organization's log.
+        // An outsider's attempt is recorded platform-side only: the organization is named
+        // as the target, not as the owner of the event, so outsiders cannot write into a
+        // tenant's audit log.
+        var details = new Dictionary<string, string> { ["required_role"] = requirement.Minimum.ToString() };
+        if (role is { } insufficient)
+        {
+            details["held_role"] = insufficient.ToString();
+        }
+        await audit.TryRecordAsync(
+            new AuditEvent(AuditActions.OrganizationAccess, AuditOutcome.Denied)
+            {
+                OrganizationId = role is null ? null : organizationId,
+                ResourceType = "organization",
+                ResourceId = organizationId.ToString(),
+                Details = details,
+            },
+            http.RequestAborted);
     }
 }

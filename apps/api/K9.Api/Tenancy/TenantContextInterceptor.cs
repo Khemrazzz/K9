@@ -17,13 +17,21 @@ namespace K9.Api.Tenancy;
 ///
 /// Session-level settings are used rather than SET LOCAL because EF runs most queries
 /// outside an explicit transaction, where SET LOCAL would not outlive its own statement.
+///
+/// Postgres still treats set_config as transactional: settings written inside a
+/// transaction (or after a savepoint) are reverted if it rolls back. So "applied" is
+/// tracked per transaction, and a rollback to a savepoint invalidates it; the next command
+/// rewrites the settings. Only commands issued through EF are covered. Raw ADO.NET commands
+/// on EF's connection see whatever was last applied.
 /// </remarks>
-public sealed class TenantContextInterceptor(RequestContext context) : DbConnectionInterceptor, IDbCommandInterceptor
+public sealed class TenantContextInterceptor(RequestContext context)
+    : DbConnectionInterceptor, IDbCommandInterceptor, IDbTransactionInterceptor
 {
     private const string Sql =
         "SELECT set_config('k9.user_id', @user_id, false), set_config('k9.organization_id', @organization_id, false)";
 
     private DbConnection? _appliedConnection;
+    private DbTransaction? _appliedTransaction;
     private int _appliedVersion;
 
     public override void ConnectionOpened(DbConnection connection, ConnectionEndEventData eventData) =>
@@ -75,8 +83,23 @@ public sealed class TenantContextInterceptor(RequestContext context) : DbConnect
         return result;
     }
 
+    public void RolledBackToSavepoint(DbTransaction transaction, TransactionEventData eventData) => Invalidate();
+
+    public Task RolledBackToSavepointAsync(
+        DbTransaction transaction, TransactionEventData eventData, CancellationToken cancellationToken = default)
+    {
+        Invalidate();
+        return Task.CompletedTask;
+    }
+
+    private void Invalidate() => _appliedConnection = null;
+
+    // A different (or no) transaction than the one the settings were written in means that
+    // transaction ended, possibly by rolling back and reverting them.
     private bool IsCurrent(DbCommand command) =>
-        ReferenceEquals(command.Connection, _appliedConnection) && _appliedVersion == context.Version;
+        ReferenceEquals(command.Connection, _appliedConnection)
+        && ReferenceEquals(command.Transaction, _appliedTransaction)
+        && _appliedVersion == context.Version;
 
     private void EnsureCurrent(DbCommand command)
     {
@@ -99,7 +122,7 @@ public sealed class TenantContextInterceptor(RequestContext context) : DbConnect
         var version = context.Version;
         using var command = CreateCommand(connection, transaction);
         command.ExecuteNonQuery();
-        MarkApplied(connection, version);
+        MarkApplied(connection, transaction, version);
     }
 
     private async Task ApplyAsync(DbConnection connection, DbTransaction? transaction, CancellationToken cancellationToken)
@@ -107,12 +130,13 @@ public sealed class TenantContextInterceptor(RequestContext context) : DbConnect
         var version = context.Version;
         await using var command = CreateCommand(connection, transaction);
         await command.ExecuteNonQueryAsync(cancellationToken);
-        MarkApplied(connection, version);
+        MarkApplied(connection, transaction, version);
     }
 
-    private void MarkApplied(DbConnection connection, int version)
+    private void MarkApplied(DbConnection connection, DbTransaction? transaction, int version)
     {
         _appliedConnection = connection;
+        _appliedTransaction = transaction;
         _appliedVersion = version;
     }
 
