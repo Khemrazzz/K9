@@ -1,0 +1,1017 @@
+[{
+    "message": "Block Public Access is not configured for the S3 Bucket k9-assets.",
+    "metadata": {
+        "event_code": "s3_bucket_level_public_access_block",
+        "product": {
+            "name": "Prowler",
+            "uid": "prowler",
+            "vendor_name": "Prowler",
+            "version": "5.44.0"
+        },
+        "profiles": [
+            "cloud",
+            "datetime"
+        ],
+        "tenant_uid": "",
+        "version": "1.5.0"
+    },
+    "severity_id": 4,
+    "severity": "High",
+    "status": "New",
+    "status_code": "FAIL",
+    "status_detail": "Block Public Access is not configured for the S3 Bucket k9-assets.",
+    "status_id": 1,
+    "unmapped": {
+        "related_url": "",
+        "categories": [
+            "internet-exposed"
+        ],
+        "depends_on": [],
+        "related_to": [],
+        "additional_urls": [
+            "https://www.trendmicro.com/trendaivisiononecloudriskmanagement/knowledge-base/aws/S3/bucket-public-access-block.html",
+            "https://docs.aws.amazon.com/AmazonS3/latest/userguide/access-control-block-public-access.html"
+        ],
+        "notes": "",
+        "compliance": {},
+        "scan_id": "01a08075-d100-73ce-a2d4-a6d297b75092",
+        "provider_uid": "111111111111",
+        "provider": "aws"
+    },
+    "activity_name": "Create",
+    "activity_id": 1,
+    "finding_info": {
+        "analytic": {
+            "category": "s3",
+            "name": "S3 bucket has Block Public Access with IgnorePublicAcls and RestrictPublicBuckets enabled at bucket or account level",
+            "type": "Rule",
+            "type_id": 1,
+            "uid": "s3_bucket_level_public_access_block"
+        },
+        "created_time": 1788861600,
+        "created_time_dt": "2026-09-08T10:00:00Z",
+        "desc": "**Amazon S3 buckets** are evaluated for **Block Public Access** settings, ensuring `ignore_public_acls` and `restrict_public_buckets` are enabled at the bucket or account scope.\n\n*Account-wide protections, when present, are treated as effective for the bucket.*",
+        "title": "S3 bucket has Block Public Access with IgnorePublicAcls and RestrictPublicBuckets enabled at bucket or account level",
+        "types": [
+            "Software and Configuration Checks/AWS Security Best Practices/Network Reachability",
+            "Software and Configuration Checks/Industry and Regulatory Standards/AWS Foundational Security Best Practices",
+            "Software and Configuration Checks/Industry and Regulatory Standards/CIS AWS Foundations Benchmark",
+            "Effects/Data Exposure"
+        ],
+        "uid": "prowler-aws-s3_bucket_level_public_access_block-111111111111-eu-west-1-k9-assets"
+    },
+    "resources": [
+        {
+            "cloud_partition": "aws",
+            "region": "eu-west-1",
+            "data": {
+                "details": "",
+                "metadata": {
+                    "name": "k9-assets",
+                    "region": "eu-west-1"
+                }
+            },
+            "group": {
+                "name": "s3"
+            },
+            "labels": [],
+            "name": "k9-assets",
+            "type": "AwsS3Bucket",
+            "uid": "arn:aws:s3:::k9-assets"
+        }
+    ],
+    "category_name": "Findings",
+    "category_uid": 2,
+    "class_name": "Detection Finding",
+    "class_uid": 2004,
+    "cloud": {
+        "account": {
+            "name": "k9-sandbox-1",
+            "type": "AWS Account",
+            "type_id": 10,
+            "uid": "111111111111",
+            "labels": []
+        },
+        "org": {
+            "name": "",
+            "ou_uid": "",
+            "ou_name": "",
+            "uid": ""
+        },
+        "provider": "aws",
+        "region": "eu-west-1"
+    },
+    "remediation": {
+        "desc": "Enable **Block Public Access** at account and bucket levels with `block_public_acls`, `ignore_public_acls`, `block_public_policy`, and `restrict_public_buckets` set to `true`. Apply **least privilege** and **defense in depth**. *If public access is required*, narrowly scope policies to fixed principals and conditions.",
+        "references": [
+            "https://hub.prowler.com/check/s3_bucket_level_public_access_block"
+        ]
+    },
+    "risk_details": "Absent **S3 Block Public Access**, public ACLs or broad policies can grant Internet or cross-account access.\n- Data disclosure (confidentiality)\n- Object overwrite or uploads (integrity)\n- Deletion or outages from misuse (availability)",
+    "time": 1788861600,
+    "time_dt": "2026-09-08T10:00:00Z",
+    "type_uid": 200401,
+    "type_name": "Detection Finding: Create"
+},{
+    "message": "User alice has rotated access key 2 in the last 90 days.",
+    "metadata": {
+        "event_code": "iam_rotate_access_key_90_days",
+        "product": {
+            "name": "Prowler",
+            "uid": "prowler",
+            "vendor_name": "Prowler",
+            "version": "5.44.0"
+        },
+        "profiles": [
+            "cloud",
+            "datetime"
+        ],
+        "tenant_uid": "",
+        "version": "1.5.0"
+    },
+    "severity_id": 3,
+    "severity": "Medium",
+    "status": "New",
+    "status_code": "PASS",
+    "status_detail": "User alice has rotated access key 2 in the last 90 days.",
+    "status_id": 1,
+    "unmapped": {
+        "related_url": "",
+        "categories": [
+            "secrets"
+        ],
+        "depends_on": [],
+        "related_to": [],
+        "additional_urls": [
+            "https://docs.aws.amazon.com/IAM/latest/UserGuide/id_credentials_getting-report.html",
+            "https://www.trendmicro.com/trendaivisiononecloudriskmanagement/knowledge-base/aws/IAM/access-keys-rotated-90-days.html"
+        ],
+        "notes": "",
+        "compliance": {},
+        "scan_id": "01a08075-d100-73ce-a2d4-a6d297b75092",
+        "provider_uid": "111111111111",
+        "provider": "aws"
+    },
+    "activity_name": "Create",
+    "activity_id": 1,
+    "finding_info": {
+        "analytic": {
+            "category": "iam",
+            "name": "IAM user does not have active access keys older than 90 days",
+            "type": "Rule",
+            "type_id": 1,
+            "uid": "iam_rotate_access_key_90_days"
+        },
+        "created_time": 1788861600,
+        "created_time_dt": "2026-09-08T10:00:00Z",
+        "desc": "**IAM user access keys** are assessed via the credential report. For each active key, the `last_rotated` timestamp is compared to `90 days`; keys exceeding this age are identified. Users without keys or with only recent rotations are noted.",
+        "title": "IAM user does not have active access keys older than 90 days",
+        "types": [
+            "Software and Configuration Checks/AWS Security Best Practices",
+            "Software and Configuration Checks/Industry and Regulatory Standards/AWS Foundational Security Best Practices",
+            "Software and Configuration Checks/Industry and Regulatory Standards/CIS AWS Foundations Benchmark"
+        ],
+        "uid": "prowler-aws-iam_rotate_access_key_90_days-111111111111-us-east-1-alice-access-key-2"
+    },
+    "resources": [
+        {
+            "cloud_partition": "aws",
+            "region": "us-east-1",
+            "data": {
+                "details": "",
+                "metadata": {
+                    "user": "alice",
+                    "arn": "arn:aws:iam::111111111111:user/alice"
+                }
+            },
+            "group": {
+                "name": "iam"
+            },
+            "labels": [],
+            "name": "alice-access-key-2",
+            "type": "AwsIamUser",
+            "uid": "arn:aws:iam::111111111111:user/alice"
+        }
+    ],
+    "category_name": "Findings",
+    "category_uid": 2,
+    "class_name": "Detection Finding",
+    "class_uid": 2004,
+    "cloud": {
+        "account": {
+            "name": "k9-sandbox-1",
+            "type": "AWS Account",
+            "type_id": 10,
+            "uid": "111111111111",
+            "labels": []
+        },
+        "org": {
+            "name": "",
+            "ou_uid": "",
+            "ou_name": "",
+            "uid": ""
+        },
+        "provider": "aws",
+        "region": "us-east-1"
+    },
+    "remediation": {
+        "desc": "Apply **least privilege** and limit static credentials:\n- Rotate active access keys at or before `90 days`\n- Prefer **IAM roles** with short-lived tokens\n- Maintain only one active key during rotation; delete the old one\n- Monitor `last_used` and remove dormant keys\n- Automate alerts and periodic reviews of key age",
+        "references": [
+            "https://hub.prowler.com/check/iam_rotate_access_key_90_days"
+        ]
+    },
+    "risk_details": "Long-lived access keys widen the attack window. If a key is leaked in code, logs, or tooling, lack of rotation keeps it valid for abuse, enabling unauthorized API calls, data exfiltration, and tampering. This degrades **confidentiality** and **integrity** and can impact **availability** and cost through destructive or excessive operations.",
+    "time": 1788861600,
+    "time_dt": "2026-09-08T10:00:00Z",
+    "type_uid": 200401,
+    "type_name": "Detection Finding: Create"
+},{
+    "message": "AMI Block Public Access is enabled in eu-west-1.",
+    "metadata": {
+        "event_code": "ec2_ami_account_block_public_access",
+        "product": {
+            "name": "Prowler",
+            "uid": "prowler",
+            "vendor_name": "Prowler",
+            "version": "5.44.0"
+        },
+        "profiles": [
+            "cloud",
+            "datetime"
+        ],
+        "tenant_uid": "",
+        "version": "1.5.0"
+    },
+    "severity_id": 3,
+    "severity": "Medium",
+    "status": "New",
+    "status_code": "PASS",
+    "status_detail": "AMI Block Public Access is enabled in eu-west-1.",
+    "status_id": 1,
+    "unmapped": {
+        "related_url": "",
+        "categories": [
+            "internet-exposed"
+        ],
+        "depends_on": [],
+        "related_to": [],
+        "additional_urls": [
+            "https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/sharingamis-intro.html",
+            "https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/image-block-public-access.html"
+        ],
+        "notes": "",
+        "compliance": {},
+        "scan_id": "01a08075-d100-73ce-a2d4-a6d297b75092",
+        "provider_uid": "111111111111",
+        "provider": "aws"
+    },
+    "activity_name": "Create",
+    "activity_id": 1,
+    "finding_info": {
+        "analytic": {
+            "category": "ec2",
+            "name": "AMI block public access is enabled at the account level",
+            "type": "Rule",
+            "type_id": 1,
+            "uid": "ec2_ami_account_block_public_access"
+        },
+        "created_time": 1788861600,
+        "created_time_dt": "2026-09-08T10:00:00Z",
+        "desc": "AMI block public access configuration is assessed to see whether public sharing of AMIs is blocked in the account and Region. When enabled (`block-new-sharing`), no AMI in the Region can be made public regardless of individual image permissions.",
+        "title": "AMI block public access is enabled at the account level",
+        "types": [
+            "Software and Configuration Checks/AWS Security Best Practices",
+            "Effects/Data Exposure"
+        ],
+        "uid": "prowler-aws-ec2_ami_account_block_public_access-111111111111-eu-west-1-111111111111"
+    },
+    "resources": [
+        {
+            "cloud_partition": "aws",
+            "region": "eu-west-1",
+            "data": {
+                "details": "",
+                "metadata": {
+                    "region": "eu-west-1",
+                    "status": "block-new-sharing"
+                }
+            },
+            "group": {
+                "name": "ec2"
+            },
+            "labels": [],
+            "name": "111111111111",
+            "type": "Other",
+            "uid": "arn:aws:ec2:us-east-1:111111111111:account"
+        }
+    ],
+    "category_name": "Findings",
+    "category_uid": 2,
+    "class_name": "Detection Finding",
+    "class_uid": 2004,
+    "cloud": {
+        "account": {
+            "name": "k9-sandbox-1",
+            "type": "AWS Account",
+            "type_id": 10,
+            "uid": "111111111111",
+            "labels": []
+        },
+        "org": {
+            "name": "",
+            "ou_uid": "",
+            "ou_name": "",
+            "uid": ""
+        },
+        "provider": "aws",
+        "region": "eu-west-1"
+    },
+    "remediation": {
+        "desc": "Enable AMI block public access (`block-new-sharing`) in every active Region. Apply guardrails (SCPs) to prevent it from being disabled, and review any AMIs that are currently shared publicly.",
+        "references": [
+            "https://hub.prowler.com/check/ec2_ami_account_block_public_access"
+        ]
+    },
+    "risk_details": "Without blocking public access, AMIs could be accidentally or maliciously shared publicly, exposing baked-in secrets, source code, and infrastructure details to unauthorized actors.",
+    "time": 1788861600,
+    "time_dt": "2026-09-08T10:00:00Z",
+    "type_uid": 200401,
+    "type_name": "Detection Finding: Create"
+},{
+    "message": "Block Public Access is configured for the S3 Bucket k9-logs.",
+    "metadata": {
+        "event_code": "s3_bucket_level_public_access_block",
+        "product": {
+            "name": "Prowler",
+            "uid": "prowler",
+            "vendor_name": "Prowler",
+            "version": "5.44.0"
+        },
+        "profiles": [
+            "cloud",
+            "datetime"
+        ],
+        "tenant_uid": "",
+        "version": "1.5.0"
+    },
+    "severity_id": 4,
+    "severity": "High",
+    "status": "New",
+    "status_code": "PASS",
+    "status_detail": "Block Public Access is configured for the S3 Bucket k9-logs.",
+    "status_id": 1,
+    "unmapped": {
+        "related_url": "",
+        "categories": [
+            "internet-exposed"
+        ],
+        "depends_on": [],
+        "related_to": [],
+        "additional_urls": [
+            "https://www.trendmicro.com/trendaivisiononecloudriskmanagement/knowledge-base/aws/S3/bucket-public-access-block.html",
+            "https://docs.aws.amazon.com/AmazonS3/latest/userguide/access-control-block-public-access.html"
+        ],
+        "notes": "",
+        "compliance": {},
+        "scan_id": "01a08075-d100-73ce-a2d4-a6d297b75092",
+        "provider_uid": "111111111111",
+        "provider": "aws"
+    },
+    "activity_name": "Create",
+    "activity_id": 1,
+    "finding_info": {
+        "analytic": {
+            "category": "s3",
+            "name": "S3 bucket has Block Public Access with IgnorePublicAcls and RestrictPublicBuckets enabled at bucket or account level",
+            "type": "Rule",
+            "type_id": 1,
+            "uid": "s3_bucket_level_public_access_block"
+        },
+        "created_time": 1788861600,
+        "created_time_dt": "2026-09-08T10:00:00Z",
+        "desc": "**Amazon S3 buckets** are evaluated for **Block Public Access** settings, ensuring `ignore_public_acls` and `restrict_public_buckets` are enabled at the bucket or account scope.\n\n*Account-wide protections, when present, are treated as effective for the bucket.*",
+        "title": "S3 bucket has Block Public Access with IgnorePublicAcls and RestrictPublicBuckets enabled at bucket or account level",
+        "types": [
+            "Software and Configuration Checks/AWS Security Best Practices/Network Reachability",
+            "Software and Configuration Checks/Industry and Regulatory Standards/AWS Foundational Security Best Practices",
+            "Software and Configuration Checks/Industry and Regulatory Standards/CIS AWS Foundations Benchmark",
+            "Effects/Data Exposure"
+        ],
+        "uid": "prowler-aws-s3_bucket_level_public_access_block-111111111111-eu-west-1-k9-logs"
+    },
+    "resources": [
+        {
+            "cloud_partition": "aws",
+            "region": "eu-west-1",
+            "data": {
+                "details": "",
+                "metadata": {
+                    "name": "k9-logs",
+                    "region": "eu-west-1"
+                }
+            },
+            "group": {
+                "name": "s3"
+            },
+            "labels": [],
+            "name": "k9-logs",
+            "type": "AwsS3Bucket",
+            "uid": "arn:aws:s3:::k9-logs"
+        }
+    ],
+    "category_name": "Findings",
+    "category_uid": 2,
+    "class_name": "Detection Finding",
+    "class_uid": 2004,
+    "cloud": {
+        "account": {
+            "name": "k9-sandbox-1",
+            "type": "AWS Account",
+            "type_id": 10,
+            "uid": "111111111111",
+            "labels": []
+        },
+        "org": {
+            "name": "",
+            "ou_uid": "",
+            "ou_name": "",
+            "uid": ""
+        },
+        "provider": "aws",
+        "region": "eu-west-1"
+    },
+    "remediation": {
+        "desc": "Enable **Block Public Access** at account and bucket levels with `block_public_acls`, `ignore_public_acls`, `block_public_policy`, and `restrict_public_buckets` set to `true`. Apply **least privilege** and **defense in depth**. *If public access is required*, narrowly scope policies to fixed principals and conditions.",
+        "references": [
+            "https://hub.prowler.com/check/s3_bucket_level_public_access_block"
+        ]
+    },
+    "risk_details": "Absent **S3 Block Public Access**, public ACLs or broad policies can grant Internet or cross-account access.\n- Data disclosure (confidentiality)\n- Object overwrite or uploads (integrity)\n- Deletion or outages from misuse (availability)",
+    "time": 1788861600,
+    "time_dt": "2026-09-08T10:00:00Z",
+    "type_uid": 200401,
+    "type_name": "Detection Finding: Create"
+},{
+    "message": "Login to the AWS Console. Choose your account name on the top right of the window -> My Account -> Contact Information.",
+    "metadata": {
+        "event_code": "account_maintain_current_contact_details",
+        "product": {
+            "name": "Prowler",
+            "uid": "prowler",
+            "vendor_name": "Prowler",
+            "version": "5.44.0"
+        },
+        "profiles": [
+            "cloud",
+            "datetime"
+        ],
+        "tenant_uid": "",
+        "version": "1.5.0"
+    },
+    "severity_id": 3,
+    "severity": "Medium",
+    "status": "New",
+    "status_code": "MANUAL",
+    "status_detail": "Login to the AWS Console. Choose your account name on the top right of the window -> My Account -> Contact Information.",
+    "status_id": 1,
+    "unmapped": {
+        "related_url": "",
+        "categories": [],
+        "depends_on": [],
+        "related_to": [],
+        "additional_urls": [
+            "https://repost.aws/knowledge-center/update-phone-number",
+            "https://support.stax.io/docs/accounts/update-aws-account-contact-details",
+            "https://maartenbruntink.nl/blog/2022/09/26/aws-account-hygiene-101-mass-updating-alternate-account-contacts/",
+            "https://docs.aws.amazon.com/security-ir/latest/userguide/update-account-contact-info.html",
+            "https://docs.aws.amazon.com/accounts/latest/reference/manage-acct-update-contact-primary.html",
+            "https://repost.aws/knowledge-center/add-update-billing-contact",
+            "https://aws.amazon.com/blogs/security/update-the-alternate-security-contact-across-your-aws-accounts-for-timely-security-notifications/",
+            "https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_accounts_update_contacts.html",
+            "https://docs.aws.amazon.com/accounts/latest/reference/manage-acct-update-contact-alternate.html"
+        ],
+        "notes": "",
+        "compliance": {},
+        "scan_id": "01a08075-d100-73ce-a2d4-a6d297b75092",
+        "provider_uid": "111111111111",
+        "provider": "aws"
+    },
+    "activity_name": "Create",
+    "activity_id": 1,
+    "finding_info": {
+        "analytic": {
+            "category": "account",
+            "name": "AWS account contact information is current",
+            "type": "Rule",
+            "type_id": 1,
+            "uid": "account_maintain_current_contact_details"
+        },
+        "created_time": 1788861600,
+        "created_time_dt": "2026-09-08T10:00:00Z",
+        "desc": "**AWS account contact information** is current for the **primary contact** and the **alternate contacts** for `security`, `billing`, and `operations`, with accurate email addresses and phone numbers.",
+        "title": "AWS account contact information is current",
+        "types": [
+            "Software and Configuration Checks/Industry and Regulatory Standards/AWS Foundational Security Best Practices"
+        ],
+        "uid": "prowler-aws-account_maintain_current_contact_details-111111111111-us-east-1-111111111111"
+    },
+    "resources": [
+        {
+            "cloud_partition": "aws",
+            "region": "us-east-1",
+            "data": {
+                "details": "",
+                "metadata": {}
+            },
+            "group": {
+                "name": "account"
+            },
+            "labels": [],
+            "name": "111111111111",
+            "type": "Other",
+            "uid": "arn:aws:iam::111111111111:root"
+        }
+    ],
+    "category_name": "Findings",
+    "category_uid": 2,
+    "class_name": "Detection Finding",
+    "class_uid": 2004,
+    "cloud": {
+        "account": {
+            "name": "k9-sandbox-1",
+            "type": "AWS Account",
+            "type_id": 10,
+            "uid": "111111111111",
+            "labels": []
+        },
+        "org": {
+            "name": "",
+            "ou_uid": "",
+            "ou_name": "",
+            "uid": ""
+        },
+        "provider": "aws",
+        "region": "us-east-1"
+    },
+    "remediation": {
+        "desc": "Adopt:\n- **Primary** and **alternate contacts** for `security`, `billing`, `operations`\n- Shared, monitored aliases and SMS-capable phone numbers (non-personal)\n- Centralized management across accounts with periodic reviews\n- **Least privilege** for who can modify contact data\n- Regular reachability tests and documented ownership",
+        "references": [
+            "https://hub.prowler.com/check/account_maintain_current_contact_details"
+        ]
+    },
+    "risk_details": "Outdated or single-person contacts delay **security notifications**, slow **incident response**, and complicate **account recovery**.\n\nAWS may throttle services during abuse mitigation, reducing **availability**. Missed alerts enable ongoing misuse, risking **data exfiltration** and unauthorized changes (**integrity**).",
+    "time": 1788861600,
+    "time_dt": "2026-09-08T10:00:00Z",
+    "type_uid": 200401,
+    "type_name": "Detection Finding: Create"
+},{
+    "message": "User alice has rotated access key 1 in the last 90 days.",
+    "metadata": {
+        "event_code": "iam_rotate_access_key_90_days",
+        "product": {
+            "name": "Prowler",
+            "uid": "prowler",
+            "vendor_name": "Prowler",
+            "version": "5.44.0"
+        },
+        "profiles": [
+            "cloud",
+            "datetime"
+        ],
+        "tenant_uid": "",
+        "version": "1.5.0"
+    },
+    "severity_id": 3,
+    "severity": "Medium",
+    "status": "New",
+    "status_code": "PASS",
+    "status_detail": "User alice has rotated access key 1 in the last 90 days.",
+    "status_id": 1,
+    "unmapped": {
+        "related_url": "",
+        "categories": [
+            "secrets"
+        ],
+        "depends_on": [],
+        "related_to": [],
+        "additional_urls": [
+            "https://docs.aws.amazon.com/IAM/latest/UserGuide/id_credentials_getting-report.html",
+            "https://www.trendmicro.com/trendaivisiononecloudriskmanagement/knowledge-base/aws/IAM/access-keys-rotated-90-days.html"
+        ],
+        "notes": "",
+        "compliance": {},
+        "scan_id": "01a08075-d100-73ce-a2d4-a6d297b75092",
+        "provider_uid": "111111111111",
+        "provider": "aws"
+    },
+    "activity_name": "Create",
+    "activity_id": 1,
+    "finding_info": {
+        "analytic": {
+            "category": "iam",
+            "name": "IAM user does not have active access keys older than 90 days",
+            "type": "Rule",
+            "type_id": 1,
+            "uid": "iam_rotate_access_key_90_days"
+        },
+        "created_time": 1788861600,
+        "created_time_dt": "2026-09-08T10:00:00Z",
+        "desc": "**IAM user access keys** are assessed via the credential report. For each active key, the `last_rotated` timestamp is compared to `90 days`; keys exceeding this age are identified. Users without keys or with only recent rotations are noted.",
+        "title": "IAM user does not have active access keys older than 90 days",
+        "types": [
+            "Software and Configuration Checks/AWS Security Best Practices",
+            "Software and Configuration Checks/Industry and Regulatory Standards/AWS Foundational Security Best Practices",
+            "Software and Configuration Checks/Industry and Regulatory Standards/CIS AWS Foundations Benchmark"
+        ],
+        "uid": "prowler-aws-iam_rotate_access_key_90_days-111111111111-us-east-1-alice-access-key-1"
+    },
+    "resources": [
+        {
+            "cloud_partition": "aws",
+            "region": "us-east-1",
+            "data": {
+                "details": "",
+                "metadata": {
+                    "user": "alice",
+                    "arn": "arn:aws:iam::111111111111:user/alice"
+                }
+            },
+            "group": {
+                "name": "iam"
+            },
+            "labels": [],
+            "name": "alice-access-key-1",
+            "type": "AwsIamUser",
+            "uid": "arn:aws:iam::111111111111:user/alice"
+        }
+    ],
+    "category_name": "Findings",
+    "category_uid": 2,
+    "class_name": "Detection Finding",
+    "class_uid": 2004,
+    "cloud": {
+        "account": {
+            "name": "k9-sandbox-1",
+            "type": "AWS Account",
+            "type_id": 10,
+            "uid": "111111111111",
+            "labels": []
+        },
+        "org": {
+            "name": "",
+            "ou_uid": "",
+            "ou_name": "",
+            "uid": ""
+        },
+        "provider": "aws",
+        "region": "us-east-1"
+    },
+    "remediation": {
+        "desc": "Apply **least privilege** and limit static credentials:\n- Rotate active access keys at or before `90 days`\n- Prefer **IAM roles** with short-lived tokens\n- Maintain only one active key during rotation; delete the old one\n- Monitor `last_used` and remove dormant keys\n- Automate alerts and periodic reviews of key age",
+        "references": [
+            "https://hub.prowler.com/check/iam_rotate_access_key_90_days"
+        ]
+    },
+    "risk_details": "Long-lived access keys widen the attack window. If a key is leaked in code, logs, or tooling, lack of rotation keeps it valid for abuse, enabling unauthorized API calls, data exfiltration, and tampering. This degrades **confidentiality** and **integrity** and can impact **availability** and cost through destructive or excessive operations.",
+    "time": 1788861600,
+    "time_dt": "2026-09-08T10:00:00Z",
+    "type_uid": 200401,
+    "type_name": "Detection Finding: Create"
+},{
+    "message": "AMI Block Public Access is disabled in us-east-1.",
+    "metadata": {
+        "event_code": "ec2_ami_account_block_public_access",
+        "product": {
+            "name": "Prowler",
+            "uid": "prowler",
+            "vendor_name": "Prowler",
+            "version": "5.44.0"
+        },
+        "profiles": [
+            "cloud",
+            "datetime"
+        ],
+        "tenant_uid": "",
+        "version": "1.5.0"
+    },
+    "severity_id": 3,
+    "severity": "Medium",
+    "status": "New",
+    "status_code": "FAIL",
+    "status_detail": "AMI Block Public Access is disabled in us-east-1.",
+    "status_id": 1,
+    "unmapped": {
+        "related_url": "",
+        "categories": [
+            "internet-exposed"
+        ],
+        "depends_on": [],
+        "related_to": [],
+        "additional_urls": [
+            "https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/sharingamis-intro.html",
+            "https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/image-block-public-access.html"
+        ],
+        "notes": "",
+        "compliance": {},
+        "scan_id": "01a08075-d100-73ce-a2d4-a6d297b75092",
+        "provider_uid": "111111111111",
+        "provider": "aws"
+    },
+    "activity_name": "Create",
+    "activity_id": 1,
+    "finding_info": {
+        "analytic": {
+            "category": "ec2",
+            "name": "AMI block public access is enabled at the account level",
+            "type": "Rule",
+            "type_id": 1,
+            "uid": "ec2_ami_account_block_public_access"
+        },
+        "created_time": 1788861600,
+        "created_time_dt": "2026-09-08T10:00:00Z",
+        "desc": "AMI block public access configuration is assessed to see whether public sharing of AMIs is blocked in the account and Region. When enabled (`block-new-sharing`), no AMI in the Region can be made public regardless of individual image permissions.",
+        "title": "AMI block public access is enabled at the account level",
+        "types": [
+            "Software and Configuration Checks/AWS Security Best Practices",
+            "Effects/Data Exposure"
+        ],
+        "uid": "prowler-aws-ec2_ami_account_block_public_access-111111111111-us-east-1-111111111111"
+    },
+    "resources": [
+        {
+            "cloud_partition": "aws",
+            "region": "us-east-1",
+            "data": {
+                "details": "",
+                "metadata": {
+                    "region": "us-east-1",
+                    "status": "unblocked"
+                }
+            },
+            "group": {
+                "name": "ec2"
+            },
+            "labels": [],
+            "name": "111111111111",
+            "type": "Other",
+            "uid": "arn:aws:ec2:us-east-1:111111111111:account"
+        }
+    ],
+    "category_name": "Findings",
+    "category_uid": 2,
+    "class_name": "Detection Finding",
+    "class_uid": 2004,
+    "cloud": {
+        "account": {
+            "name": "k9-sandbox-1",
+            "type": "AWS Account",
+            "type_id": 10,
+            "uid": "111111111111",
+            "labels": []
+        },
+        "org": {
+            "name": "",
+            "ou_uid": "",
+            "ou_name": "",
+            "uid": ""
+        },
+        "provider": "aws",
+        "region": "us-east-1"
+    },
+    "remediation": {
+        "desc": "Enable AMI block public access (`block-new-sharing`) in every active Region. Apply guardrails (SCPs) to prevent it from being disabled, and review any AMIs that are currently shared publicly.",
+        "references": [
+            "https://hub.prowler.com/check/ec2_ami_account_block_public_access"
+        ]
+    },
+    "risk_details": "Without blocking public access, AMIs could be accidentally or maliciously shared publicly, exposing baked-in secrets, source code, and infrastructure details to unauthorized actors.",
+    "time": 1788861600,
+    "time_dt": "2026-09-08T10:00:00Z",
+    "type_uid": 200401,
+    "type_name": "Detection Finding: Create"
+},{
+    "message": "Security group legacy (sg-0b2) does not have all ports open to the Internet.",
+    "metadata": {
+        "event_code": "ec2_securitygroup_allow_ingress_from_internet_to_all_ports",
+        "product": {
+            "name": "Prowler",
+            "uid": "prowler",
+            "vendor_name": "Prowler",
+            "version": "5.44.0"
+        },
+        "profiles": [
+            "cloud",
+            "datetime"
+        ],
+        "tenant_uid": "",
+        "version": "1.5.0"
+    },
+    "severity_id": 5,
+    "severity": "Critical",
+    "status": "Suppressed",
+    "status_code": "PASS",
+    "status_detail": "Security group legacy (sg-0b2) does not have all ports open to the Internet.",
+    "status_id": 3,
+    "unmapped": {
+        "related_url": "",
+        "categories": [
+            "internet-exposed"
+        ],
+        "depends_on": [],
+        "related_to": [],
+        "additional_urls": [
+            "https://docs.aws.amazon.com/vpc/latest/userguide/VPC_SecurityGroups.html",
+            "https://www.trendmicro.com/trendaivisiononecloudriskmanagement/knowledge-base/aws/EC2/security-group-ingress-any.html"
+        ],
+        "notes": "",
+        "compliance": {},
+        "scan_id": "01a08075-d100-73ce-a2d4-a6d297b75092",
+        "provider_uid": "111111111111",
+        "provider": "aws"
+    },
+    "activity_name": "Create",
+    "activity_id": 1,
+    "finding_info": {
+        "analytic": {
+            "category": "ec2",
+            "name": "Security group does not have all ports open to the Internet",
+            "type": "Rule",
+            "type_id": 1,
+            "uid": "ec2_securitygroup_allow_ingress_from_internet_to_all_ports"
+        },
+        "created_time": 1788861600,
+        "created_time_dt": "2026-09-08T10:00:00Z",
+        "desc": "**EC2 security groups** with **inbound rules** permitting Internet sources (`0.0.0.0/0`, `::/0`) to `all ports` across any protocol",
+        "title": "Security group does not have all ports open to the Internet",
+        "types": [
+            "Software and Configuration Checks/AWS Security Best Practices/Network Reachability",
+            "Software and Configuration Checks/Industry and Regulatory Standards/AWS Foundational Security Best Practices",
+            "Software and Configuration Checks/Industry and Regulatory Standards/CIS AWS Foundations Benchmark",
+            "TTPs/Initial Access/Unauthorized Access",
+            "Effects/Data Exposure"
+        ],
+        "uid": "prowler-aws-ec2_securitygroup_allow_ingress_from_internet_to_all_ports-111111111111-eu-west-1-sg-0b2"
+    },
+    "resources": [
+        {
+            "cloud_partition": "aws",
+            "region": "eu-west-1",
+            "data": {
+                "details": "",
+                "metadata": {
+                    "id": "sg-0b2",
+                    "region": "eu-west-1",
+                    "vpc_id": "vpc-0k9"
+                }
+            },
+            "group": {
+                "name": "ec2"
+            },
+            "labels": [],
+            "name": "sg-0b2",
+            "type": "AwsEc2SecurityGroup",
+            "uid": "arn:aws:ec2:eu-west-1:111111111111:security-group/sg-0b2"
+        }
+    ],
+    "category_name": "Findings",
+    "category_uid": 2,
+    "class_name": "Detection Finding",
+    "class_uid": 2004,
+    "cloud": {
+        "account": {
+            "name": "k9-sandbox-1",
+            "type": "AWS Account",
+            "type_id": 10,
+            "uid": "111111111111",
+            "labels": []
+        },
+        "org": {
+            "name": "",
+            "ou_uid": "",
+            "ou_name": "",
+            "uid": ""
+        },
+        "provider": "aws",
+        "region": "eu-west-1"
+    },
+    "remediation": {
+        "desc": "Enforce **least privilege** on ingress: allow only required ports from trusted sources, avoid `0.0.0.0/0` and `::/0`. Prefer private access (VPN, bastion, or Session Manager), use security group references, and layer **defense in depth** with network ACLs. Periodically review and remove unused rules.",
+        "references": [
+            "https://hub.prowler.com/check/ec2_securitygroup_allow_ingress_from_internet_to_all_ports"
+        ]
+    },
+    "risk_details": "Opening every port to the Internet enables broad scanning and exploit attempts, leading to **unauthorized access**, **remote code execution**, and **data exfiltration**, with easier lateral movement into the VPC. Confidentiality, integrity, and availability are all at risk.",
+    "time": 1788861600,
+    "time_dt": "2026-09-08T10:00:00Z",
+    "type_uid": 200401,
+    "type_name": "Detection Finding: Create"
+},{
+    "message": "MFA is not enabled for root account (checked again).",
+    "metadata": {
+        "event_code": "iam_root_mfa_enabled",
+        "product": {
+            "name": "Prowler",
+            "uid": "prowler",
+            "vendor_name": "Prowler",
+            "version": "5.44.0"
+        },
+        "profiles": [
+            "cloud",
+            "datetime"
+        ],
+        "tenant_uid": "",
+        "version": "1.5.0"
+    },
+    "severity_id": 5,
+    "severity": "Critical",
+    "status": "New",
+    "status_code": "FAIL",
+    "status_detail": "MFA is not enabled for root account (checked again).",
+    "status_id": 1,
+    "unmapped": {
+        "related_url": "",
+        "categories": [
+            "identity-access"
+        ],
+        "depends_on": [],
+        "related_to": [],
+        "additional_urls": [
+            "https://docs.aws.amazon.com/IAM/latest/UserGuide/id_root-user.html#id_root-user_manage_mfa"
+        ],
+        "notes": "",
+        "compliance": {},
+        "scan_id": "01a08075-d100-73ce-a2d4-a6d297b75092",
+        "provider_uid": "111111111111",
+        "provider": "aws"
+    },
+    "activity_name": "Create",
+    "activity_id": 1,
+    "finding_info": {
+        "analytic": {
+            "category": "iam",
+            "name": "Root account has MFA enabled",
+            "type": "Rule",
+            "type_id": 1,
+            "uid": "iam_root_mfa_enabled"
+        },
+        "created_time": 1788861600,
+        "created_time_dt": "2026-09-08T10:00:00Z",
+        "desc": "**AWS root user** with active credentials is assessed for **MFA activation**. The evaluation considers whether the root identity has a password or access keys and whether **MFA is enabled**.\n\n*If centralized root access is enabled in Organizations, the presence of individual root credentials is also noted.*",
+        "title": "Root account has MFA enabled",
+        "types": [
+            "Software and Configuration Checks/AWS Security Best Practices",
+            "Software and Configuration Checks/Industry and Regulatory Standards/AWS Foundational Security Best Practices",
+            "Software and Configuration Checks/Industry and Regulatory Standards/CIS AWS Foundations Benchmark"
+        ],
+        "uid": "prowler-aws-iam_root_mfa_enabled-111111111111-us-east-1-<root_account>"
+    },
+    "resources": [
+        {
+            "cloud_partition": "aws",
+            "region": "us-east-1",
+            "data": {
+                "details": "",
+                "metadata": {}
+            },
+            "group": {
+                "name": "iam"
+            },
+            "labels": [],
+            "name": "<root_account>",
+            "type": "AwsIamUser",
+            "uid": "arn:aws:iam::111111111111:root"
+        }
+    ],
+    "category_name": "Findings",
+    "category_uid": 2,
+    "class_name": "Detection Finding",
+    "class_uid": 2004,
+    "cloud": {
+        "account": {
+            "name": "k9-sandbox-1",
+            "type": "AWS Account",
+            "type_id": 10,
+            "uid": "111111111111",
+            "labels": []
+        },
+        "org": {
+            "name": "",
+            "ou_uid": "",
+            "ou_name": "",
+            "uid": ""
+        },
+        "provider": "aws",
+        "region": "us-east-1"
+    },
+    "remediation": {
+        "desc": "Enable **MFA** for the root user, preferably **hardware-based** or a dedicated, managed device. Remove root access keys and avoid using root for daily tasks. Apply **least privilege** with IAM Identity Center for admins, and use Organizations to **centralize root access** and eliminate long-lived root credentials.",
+        "references": [
+            "https://hub.prowler.com/check/iam_root_mfa_enabled"
+        ]
+    },
+    "risk_details": "Without **MFA**, compromise of the root password or access keys can lead to full **account takeover**. An attacker with root can disable protections, steal or delete data, change billing, and create persistent admins, undermining confidentiality, integrity, and availability.",
+    "time": 1788861600,
+    "time_dt": "2026-09-08T10:00:00Z",
+    "type_uid": 200401,
+    "type_name": "Detection Finding: Create"
+}]

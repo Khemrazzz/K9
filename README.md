@@ -236,6 +236,19 @@ lock the organization row, so concurrent demotions can't remove the last owner.
 existing Keycloak keeps its realm, so turn on its event settings in the admin console
 (Realm settings → Events) or with `kcadm.sh`. A fresh realm import includes them.
 
+### Prowler scan import (in progress)
+
+Organizations will upload Prowler OCSF exports. K9 turns them into findings with an
+evidence trail: immutable observations, and a finding state derived from them by explicit
+rules. A finding is marked fixed only when a strictly newer PASS of the same check on the
+same resource arrives. [docs/prowler-import-contract.md](docs/prowler-import-contract.md)
+defines what is accepted and how state is derived.
+
+The contract tests (`K9.Api.Tests/Assessments/`) are written and **fail until the
+importer is implemented**. They run against fixtures that
+[tools/prowler-fixtures](tools/prowler-fixtures/README.md) generates from Prowler 5.44.0's
+own output code.
+
 ## Web console (Next.js 16)
 
 The console is in `apps/web`. It needs Node 22+, the infrastructure above, and the API

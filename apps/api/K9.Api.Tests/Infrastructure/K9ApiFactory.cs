@@ -70,6 +70,9 @@ public sealed class K9ApiFactory : WebApplicationFactory<Program>, IAsyncLifetim
         builder.UseSetting("ConnectionStrings:K9", AppConnectionString);
         builder.UseSetting("Auth:Authority", TestTokens.Issuer);
         builder.UseSetting("Auth:Audience", TestTokens.Audience);
+        // Small enough for tests to exceed cheaply; the fixtures are far below both.
+        builder.UseSetting("Assessments:Import:MaxFileBytes", TestLimits.MaxFileBytes.ToString());
+        builder.UseSetting("Assessments:Import:MaxObservations", TestLimits.MaxObservations.ToString());
 
         builder.ConfigureTestServices(services =>
         {
@@ -107,6 +110,12 @@ public sealed class K9ApiFactory : WebApplicationFactory<Program>, IAsyncLifetim
         }
         throw new InvalidOperationException("Could not find the repository root (compose.yaml).");
     }
+}
+
+public static class TestLimits
+{
+    public const long MaxFileBytes = 2 * 1024 * 1024;
+    public const int MaxObservations = 100;
 }
 
 [CollectionDefinition(Name)]

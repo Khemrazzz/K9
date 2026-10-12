@@ -1,0 +1,679 @@
+[{
+    "message": "Block Public Access is not configured for the S3 Bucket k9-logs-b.",
+    "metadata": {
+        "event_code": "s3_bucket_level_public_access_block",
+        "product": {
+            "name": "Prowler",
+            "uid": "prowler",
+            "vendor_name": "Prowler",
+            "version": "5.44.0"
+        },
+        "profiles": [
+            "cloud",
+            "datetime"
+        ],
+        "tenant_uid": "",
+        "version": "1.5.0"
+    },
+    "severity_id": 4,
+    "severity": "High",
+    "status": "New",
+    "status_code": "FAIL",
+    "status_detail": "Block Public Access is not configured for the S3 Bucket k9-logs-b.",
+    "status_id": 1,
+    "unmapped": {
+        "related_url": "",
+        "categories": [
+            "internet-exposed"
+        ],
+        "depends_on": [],
+        "related_to": [],
+        "additional_urls": [
+            "https://www.trendmicro.com/trendaivisiononecloudriskmanagement/knowledge-base/aws/S3/bucket-public-access-block.html",
+            "https://docs.aws.amazon.com/AmazonS3/latest/userguide/access-control-block-public-access.html"
+        ],
+        "notes": "",
+        "compliance": {},
+        "scan_id": "01a05c69-4d00-752e-89a7-834df2a74de4",
+        "provider_uid": "222222222222",
+        "provider": "aws"
+    },
+    "activity_name": "Create",
+    "activity_id": 1,
+    "finding_info": {
+        "analytic": {
+            "category": "s3",
+            "name": "S3 bucket has Block Public Access with IgnorePublicAcls and RestrictPublicBuckets enabled at bucket or account level",
+            "type": "Rule",
+            "type_id": 1,
+            "uid": "s3_bucket_level_public_access_block"
+        },
+        "created_time": 1788256800,
+        "created_time_dt": "2026-09-01T10:00:00Z",
+        "desc": "**Amazon S3 buckets** are evaluated for **Block Public Access** settings, ensuring `ignore_public_acls` and `restrict_public_buckets` are enabled at the bucket or account scope.\n\n*Account-wide protections, when present, are treated as effective for the bucket.*",
+        "title": "S3 bucket has Block Public Access with IgnorePublicAcls and RestrictPublicBuckets enabled at bucket or account level",
+        "types": [
+            "Software and Configuration Checks/AWS Security Best Practices/Network Reachability",
+            "Software and Configuration Checks/Industry and Regulatory Standards/AWS Foundational Security Best Practices",
+            "Software and Configuration Checks/Industry and Regulatory Standards/CIS AWS Foundations Benchmark",
+            "Effects/Data Exposure"
+        ],
+        "uid": "prowler-aws-s3_bucket_level_public_access_block-222222222222-eu-west-1-k9-logs-b"
+    },
+    "resources": [
+        {
+            "cloud_partition": "aws",
+            "region": "eu-west-1",
+            "data": {
+                "details": "",
+                "metadata": {
+                    "name": "k9-logs-b",
+                    "region": "eu-west-1"
+                }
+            },
+            "group": {
+                "name": "s3"
+            },
+            "labels": [],
+            "name": "k9-logs-b",
+            "type": "AwsS3Bucket",
+            "uid": "arn:aws:s3:::k9-logs-b"
+        }
+    ],
+    "category_name": "Findings",
+    "category_uid": 2,
+    "class_name": "Detection Finding",
+    "class_uid": 2004,
+    "cloud": {
+        "account": {
+            "name": "k9-sandbox-2",
+            "type": "AWS Account",
+            "type_id": 10,
+            "uid": "222222222222",
+            "labels": []
+        },
+        "org": {
+            "name": "",
+            "ou_uid": "",
+            "ou_name": "",
+            "uid": ""
+        },
+        "provider": "aws",
+        "region": "eu-west-1"
+    },
+    "remediation": {
+        "desc": "Enable **Block Public Access** at account and bucket levels with `block_public_acls`, `ignore_public_acls`, `block_public_policy`, and `restrict_public_buckets` set to `true`. Apply **least privilege** and **defense in depth**. *If public access is required*, narrowly scope policies to fixed principals and conditions.",
+        "references": [
+            "https://hub.prowler.com/check/s3_bucket_level_public_access_block"
+        ]
+    },
+    "risk_details": "Absent **S3 Block Public Access**, public ACLs or broad policies can grant Internet or cross-account access.\n- Data disclosure (confidentiality)\n- Object overwrite or uploads (integrity)\n- Deletion or outages from misuse (availability)",
+    "time": 1788256800,
+    "time_dt": "2026-09-01T10:00:00Z",
+    "type_uid": 200401,
+    "type_name": "Detection Finding: Create"
+},{
+    "message": "Security group default (sg-0a1) has all ports open to the Internet.",
+    "metadata": {
+        "event_code": "ec2_securitygroup_allow_ingress_from_internet_to_all_ports",
+        "product": {
+            "name": "Prowler",
+            "uid": "prowler",
+            "vendor_name": "Prowler",
+            "version": "5.44.0"
+        },
+        "profiles": [
+            "cloud",
+            "datetime"
+        ],
+        "tenant_uid": "",
+        "version": "1.5.0"
+    },
+    "severity_id": 5,
+    "severity": "Critical",
+    "status": "New",
+    "status_code": "FAIL",
+    "status_detail": "Security group default (sg-0a1) has all ports open to the Internet.",
+    "status_id": 1,
+    "unmapped": {
+        "related_url": "",
+        "categories": [
+            "internet-exposed"
+        ],
+        "depends_on": [],
+        "related_to": [],
+        "additional_urls": [
+            "https://docs.aws.amazon.com/vpc/latest/userguide/VPC_SecurityGroups.html",
+            "https://www.trendmicro.com/trendaivisiononecloudriskmanagement/knowledge-base/aws/EC2/security-group-ingress-any.html"
+        ],
+        "notes": "",
+        "compliance": {},
+        "scan_id": "01a05c69-4d00-752e-89a7-834df2a74de4",
+        "provider_uid": "222222222222",
+        "provider": "aws"
+    },
+    "activity_name": "Create",
+    "activity_id": 1,
+    "finding_info": {
+        "analytic": {
+            "category": "ec2",
+            "name": "Security group does not have all ports open to the Internet",
+            "type": "Rule",
+            "type_id": 1,
+            "uid": "ec2_securitygroup_allow_ingress_from_internet_to_all_ports"
+        },
+        "created_time": 1788256800,
+        "created_time_dt": "2026-09-01T10:00:00Z",
+        "desc": "**EC2 security groups** with **inbound rules** permitting Internet sources (`0.0.0.0/0`, `::/0`) to `all ports` across any protocol",
+        "title": "Security group does not have all ports open to the Internet",
+        "types": [
+            "Software and Configuration Checks/AWS Security Best Practices/Network Reachability",
+            "Software and Configuration Checks/Industry and Regulatory Standards/AWS Foundational Security Best Practices",
+            "Software and Configuration Checks/Industry and Regulatory Standards/CIS AWS Foundations Benchmark",
+            "TTPs/Initial Access/Unauthorized Access",
+            "Effects/Data Exposure"
+        ],
+        "uid": "prowler-aws-ec2_securitygroup_allow_ingress_from_internet_to_all_ports-222222222222-eu-west-1-sg-0a1"
+    },
+    "resources": [
+        {
+            "cloud_partition": "aws",
+            "region": "eu-west-1",
+            "data": {
+                "details": "",
+                "metadata": {
+                    "id": "sg-0a1",
+                    "region": "eu-west-1",
+                    "vpc_id": "vpc-0k9"
+                }
+            },
+            "group": {
+                "name": "ec2"
+            },
+            "labels": [],
+            "name": "sg-0a1",
+            "type": "AwsEc2SecurityGroup",
+            "uid": "arn:aws:ec2:eu-west-1:222222222222:security-group/sg-0a1"
+        }
+    ],
+    "category_name": "Findings",
+    "category_uid": 2,
+    "class_name": "Detection Finding",
+    "class_uid": 2004,
+    "cloud": {
+        "account": {
+            "name": "k9-sandbox-2",
+            "type": "AWS Account",
+            "type_id": 10,
+            "uid": "222222222222",
+            "labels": []
+        },
+        "org": {
+            "name": "",
+            "ou_uid": "",
+            "ou_name": "",
+            "uid": ""
+        },
+        "provider": "aws",
+        "region": "eu-west-1"
+    },
+    "remediation": {
+        "desc": "Enforce **least privilege** on ingress: allow only required ports from trusted sources, avoid `0.0.0.0/0` and `::/0`. Prefer private access (VPN, bastion, or Session Manager), use security group references, and layer **defense in depth** with network ACLs. Periodically review and remove unused rules.",
+        "references": [
+            "https://hub.prowler.com/check/ec2_securitygroup_allow_ingress_from_internet_to_all_ports"
+        ]
+    },
+    "risk_details": "Opening every port to the Internet enables broad scanning and exploit attempts, leading to **unauthorized access**, **remote code execution**, and **data exfiltration**, with easier lateral movement into the VPC. Confidentiality, integrity, and availability are all at risk.",
+    "time": 1788256800,
+    "time_dt": "2026-09-01T10:00:00Z",
+    "type_uid": 200401,
+    "type_name": "Detection Finding: Create"
+},{
+    "message": "MFA is enabled for root account.",
+    "metadata": {
+        "event_code": "iam_root_mfa_enabled",
+        "product": {
+            "name": "Prowler",
+            "uid": "prowler",
+            "vendor_name": "Prowler",
+            "version": "5.44.0"
+        },
+        "profiles": [
+            "cloud",
+            "datetime"
+        ],
+        "tenant_uid": "",
+        "version": "1.5.0"
+    },
+    "severity_id": 5,
+    "severity": "Critical",
+    "status": "New",
+    "status_code": "PASS",
+    "status_detail": "MFA is enabled for root account.",
+    "status_id": 1,
+    "unmapped": {
+        "related_url": "",
+        "categories": [
+            "identity-access"
+        ],
+        "depends_on": [],
+        "related_to": [],
+        "additional_urls": [
+            "https://docs.aws.amazon.com/IAM/latest/UserGuide/id_root-user.html#id_root-user_manage_mfa"
+        ],
+        "notes": "",
+        "compliance": {},
+        "scan_id": "01a05c69-4d00-752e-89a7-834df2a74de4",
+        "provider_uid": "222222222222",
+        "provider": "aws"
+    },
+    "activity_name": "Create",
+    "activity_id": 1,
+    "finding_info": {
+        "analytic": {
+            "category": "iam",
+            "name": "Root account has MFA enabled",
+            "type": "Rule",
+            "type_id": 1,
+            "uid": "iam_root_mfa_enabled"
+        },
+        "created_time": 1788256800,
+        "created_time_dt": "2026-09-01T10:00:00Z",
+        "desc": "**AWS root user** with active credentials is assessed for **MFA activation**. The evaluation considers whether the root identity has a password or access keys and whether **MFA is enabled**.\n\n*If centralized root access is enabled in Organizations, the presence of individual root credentials is also noted.*",
+        "title": "Root account has MFA enabled",
+        "types": [
+            "Software and Configuration Checks/AWS Security Best Practices",
+            "Software and Configuration Checks/Industry and Regulatory Standards/AWS Foundational Security Best Practices",
+            "Software and Configuration Checks/Industry and Regulatory Standards/CIS AWS Foundations Benchmark"
+        ],
+        "uid": "prowler-aws-iam_root_mfa_enabled-222222222222-us-east-1-<root_account>"
+    },
+    "resources": [
+        {
+            "cloud_partition": "aws",
+            "region": "us-east-1",
+            "data": {
+                "details": "",
+                "metadata": {}
+            },
+            "group": {
+                "name": "iam"
+            },
+            "labels": [],
+            "name": "<root_account>",
+            "type": "AwsIamUser",
+            "uid": "arn:aws:iam::222222222222:root"
+        }
+    ],
+    "category_name": "Findings",
+    "category_uid": 2,
+    "class_name": "Detection Finding",
+    "class_uid": 2004,
+    "cloud": {
+        "account": {
+            "name": "k9-sandbox-2",
+            "type": "AWS Account",
+            "type_id": 10,
+            "uid": "222222222222",
+            "labels": []
+        },
+        "org": {
+            "name": "",
+            "ou_uid": "",
+            "ou_name": "",
+            "uid": ""
+        },
+        "provider": "aws",
+        "region": "us-east-1"
+    },
+    "remediation": {
+        "desc": "Enable **MFA** for the root user, preferably **hardware-based** or a dedicated, managed device. Remove root access keys and avoid using root for daily tasks. Apply **least privilege** with IAM Identity Center for admins, and use Organizations to **centralize root access** and eliminate long-lived root credentials.",
+        "references": [
+            "https://hub.prowler.com/check/iam_root_mfa_enabled"
+        ]
+    },
+    "risk_details": "Without **MFA**, compromise of the root password or access keys can lead to full **account takeover**. An attacker with root can disable protections, steal or delete data, change billing, and create persistent admins, undermining confidentiality, integrity, and availability.",
+    "time": 1788256800,
+    "time_dt": "2026-09-01T10:00:00Z",
+    "type_uid": 200401,
+    "type_name": "Detection Finding: Create"
+},{
+    "message": "Block Public Access is not configured for the S3 Bucket k9-logs.",
+    "metadata": {
+        "event_code": "s3_bucket_level_public_access_block",
+        "product": {
+            "name": "Prowler",
+            "uid": "prowler",
+            "vendor_name": "Prowler",
+            "version": "5.44.0"
+        },
+        "profiles": [
+            "cloud",
+            "datetime"
+        ],
+        "tenant_uid": "",
+        "version": "1.5.0"
+    },
+    "severity_id": 4,
+    "severity": "High",
+    "status": "New",
+    "status_code": "FAIL",
+    "status_detail": "Block Public Access is not configured for the S3 Bucket k9-logs.",
+    "status_id": 1,
+    "unmapped": {
+        "related_url": "",
+        "categories": [
+            "internet-exposed"
+        ],
+        "depends_on": [],
+        "related_to": [],
+        "additional_urls": [
+            "https://www.trendmicro.com/trendaivisiononecloudriskmanagement/knowledge-base/aws/S3/bucket-public-access-block.html",
+            "https://docs.aws.amazon.com/AmazonS3/latest/userguide/access-control-block-public-access.html"
+        ],
+        "notes": "",
+        "compliance": {},
+        "scan_id": "01a0a482-5500-7651-8317-1ff4a6a3a450",
+        "provider_uid": "111111111111",
+        "provider": "aws"
+    },
+    "activity_name": "Create",
+    "activity_id": 1,
+    "finding_info": {
+        "analytic": {
+            "category": "s3",
+            "name": "S3 bucket has Block Public Access with IgnorePublicAcls and RestrictPublicBuckets enabled at bucket or account level",
+            "type": "Rule",
+            "type_id": 1,
+            "uid": "s3_bucket_level_public_access_block"
+        },
+        "created_time": 1789466400,
+        "created_time_dt": "2026-09-15T10:00:00Z",
+        "desc": "**Amazon S3 buckets** are evaluated for **Block Public Access** settings, ensuring `ignore_public_acls` and `restrict_public_buckets` are enabled at the bucket or account scope.\n\n*Account-wide protections, when present, are treated as effective for the bucket.*",
+        "title": "S3 bucket has Block Public Access with IgnorePublicAcls and RestrictPublicBuckets enabled at bucket or account level",
+        "types": [
+            "Software and Configuration Checks/AWS Security Best Practices/Network Reachability",
+            "Software and Configuration Checks/Industry and Regulatory Standards/AWS Foundational Security Best Practices",
+            "Software and Configuration Checks/Industry and Regulatory Standards/CIS AWS Foundations Benchmark",
+            "Effects/Data Exposure"
+        ],
+        "uid": "prowler-aws-s3_bucket_level_public_access_block-111111111111-eu-west-1-k9-logs"
+    },
+    "resources": [
+        {
+            "cloud_partition": "aws",
+            "region": "eu-west-1",
+            "data": {
+                "details": "",
+                "metadata": {
+                    "name": "k9-logs",
+                    "region": "eu-west-1"
+                }
+            },
+            "group": {
+                "name": "s3"
+            },
+            "labels": [],
+            "name": "k9-logs",
+            "type": "AwsS3Bucket",
+            "uid": "arn:aws:s3:::k9-logs"
+        }
+    ],
+    "category_name": "Findings",
+    "category_uid": 2,
+    "class_name": "Detection Finding",
+    "class_uid": 2004,
+    "cloud": {
+        "account": {
+            "name": "k9-sandbox-1",
+            "type": "AWS Account",
+            "type_id": 10,
+            "uid": "111111111111",
+            "labels": []
+        },
+        "org": {
+            "name": "",
+            "ou_uid": "",
+            "ou_name": "",
+            "uid": ""
+        },
+        "provider": "aws",
+        "region": "eu-west-1"
+    },
+    "remediation": {
+        "desc": "Enable **Block Public Access** at account and bucket levels with `block_public_acls`, `ignore_public_acls`, `block_public_policy`, and `restrict_public_buckets` set to `true`. Apply **least privilege** and **defense in depth**. *If public access is required*, narrowly scope policies to fixed principals and conditions.",
+        "references": [
+            "https://hub.prowler.com/check/s3_bucket_level_public_access_block"
+        ]
+    },
+    "risk_details": "Absent **S3 Block Public Access**, public ACLs or broad policies can grant Internet or cross-account access.\n- Data disclosure (confidentiality)\n- Object overwrite or uploads (integrity)\n- Deletion or outages from misuse (availability)",
+    "time": 1789466400,
+    "time_dt": "2026-09-15T10:00:00Z",
+    "type_uid": 200401,
+    "type_name": "Detection Finding: Create"
+},{
+    "message": "Security group default (sg-0a1) could not be evaluated automatically.",
+    "metadata": {
+        "event_code": "ec2_securitygroup_allow_ingress_from_internet_to_all_ports",
+        "product": {
+            "name": "Prowler",
+            "uid": "prowler",
+            "vendor_name": "Prowler",
+            "version": "5.44.0"
+        },
+        "profiles": [
+            "cloud",
+            "datetime"
+        ],
+        "tenant_uid": "",
+        "version": "1.5.0"
+    },
+    "severity_id": 5,
+    "severity": "Critical",
+    "status": "New",
+    "status_code": "MANUAL",
+    "status_detail": "Security group default (sg-0a1) could not be evaluated automatically.",
+    "status_id": 1,
+    "unmapped": {
+        "related_url": "",
+        "categories": [
+            "internet-exposed"
+        ],
+        "depends_on": [],
+        "related_to": [],
+        "additional_urls": [
+            "https://docs.aws.amazon.com/vpc/latest/userguide/VPC_SecurityGroups.html",
+            "https://www.trendmicro.com/trendaivisiononecloudriskmanagement/knowledge-base/aws/EC2/security-group-ingress-any.html"
+        ],
+        "notes": "",
+        "compliance": {},
+        "scan_id": "01a0a482-5500-7651-8317-1ff4a6a3a450",
+        "provider_uid": "111111111111",
+        "provider": "aws"
+    },
+    "activity_name": "Create",
+    "activity_id": 1,
+    "finding_info": {
+        "analytic": {
+            "category": "ec2",
+            "name": "Security group does not have all ports open to the Internet",
+            "type": "Rule",
+            "type_id": 1,
+            "uid": "ec2_securitygroup_allow_ingress_from_internet_to_all_ports"
+        },
+        "created_time": 1789466400,
+        "created_time_dt": "2026-09-15T10:00:00Z",
+        "desc": "**EC2 security groups** with **inbound rules** permitting Internet sources (`0.0.0.0/0`, `::/0`) to `all ports` across any protocol",
+        "title": "Security group does not have all ports open to the Internet",
+        "types": [
+            "Software and Configuration Checks/AWS Security Best Practices/Network Reachability",
+            "Software and Configuration Checks/Industry and Regulatory Standards/AWS Foundational Security Best Practices",
+            "Software and Configuration Checks/Industry and Regulatory Standards/CIS AWS Foundations Benchmark",
+            "TTPs/Initial Access/Unauthorized Access",
+            "Effects/Data Exposure"
+        ],
+        "uid": "prowler-aws-ec2_securitygroup_allow_ingress_from_internet_to_all_ports-111111111111-eu-west-1-sg-0a1"
+    },
+    "resources": [
+        {
+            "cloud_partition": "aws",
+            "region": "eu-west-1",
+            "data": {
+                "details": "",
+                "metadata": {
+                    "id": "sg-0a1",
+                    "region": "eu-west-1",
+                    "vpc_id": "vpc-0k9"
+                }
+            },
+            "group": {
+                "name": "ec2"
+            },
+            "labels": [],
+            "name": "sg-0a1",
+            "type": "AwsEc2SecurityGroup",
+            "uid": "arn:aws:ec2:eu-west-1:111111111111:security-group/sg-0a1"
+        }
+    ],
+    "category_name": "Findings",
+    "category_uid": 2,
+    "class_name": "Detection Finding",
+    "class_uid": 2004,
+    "cloud": {
+        "account": {
+            "name": "k9-sandbox-1",
+            "type": "AWS Account",
+            "type_id": 10,
+            "uid": "111111111111",
+            "labels": []
+        },
+        "org": {
+            "name": "",
+            "ou_uid": "",
+            "ou_name": "",
+            "uid": ""
+        },
+        "provider": "aws",
+        "region": "eu-west-1"
+    },
+    "remediation": {
+        "desc": "Enforce **least privilege** on ingress: allow only required ports from trusted sources, avoid `0.0.0.0/0` and `::/0`. Prefer private access (VPN, bastion, or Session Manager), use security group references, and layer **defense in depth** with network ACLs. Periodically review and remove unused rules.",
+        "references": [
+            "https://hub.prowler.com/check/ec2_securitygroup_allow_ingress_from_internet_to_all_ports"
+        ]
+    },
+    "risk_details": "Opening every port to the Internet enables broad scanning and exploit attempts, leading to **unauthorized access**, **remote code execution**, and **data exfiltration**, with easier lateral movement into the VPC. Confidentiality, integrity, and availability are all at risk.",
+    "time": 1789466400,
+    "time_dt": "2026-09-15T10:00:00Z",
+    "type_uid": 200401,
+    "type_name": "Detection Finding: Create"
+},{
+    "message": "MFA is enabled for root account.",
+    "metadata": {
+        "event_code": "iam_root_mfa_enabled",
+        "product": {
+            "name": "Prowler",
+            "uid": "prowler",
+            "vendor_name": "Prowler",
+            "version": "5.44.0"
+        },
+        "profiles": [
+            "cloud",
+            "datetime"
+        ],
+        "tenant_uid": "",
+        "version": "1.5.0"
+    },
+    "severity_id": 5,
+    "severity": "Critical",
+    "status": "New",
+    "status_code": "PASS",
+    "status_detail": "MFA is enabled for root account.",
+    "status_id": 1,
+    "unmapped": {
+        "related_url": "",
+        "categories": [
+            "identity-access"
+        ],
+        "depends_on": [],
+        "related_to": [],
+        "additional_urls": [
+            "https://docs.aws.amazon.com/IAM/latest/UserGuide/id_root-user.html#id_root-user_manage_mfa"
+        ],
+        "notes": "",
+        "compliance": {},
+        "scan_id": "01a0a482-5500-7651-8317-1ff4a6a3a450",
+        "provider_uid": "111111111111",
+        "provider": "aws"
+    },
+    "activity_name": "Create",
+    "activity_id": 1,
+    "finding_info": {
+        "analytic": {
+            "category": "iam",
+            "name": "Root account has MFA enabled",
+            "type": "Rule",
+            "type_id": 1,
+            "uid": "iam_root_mfa_enabled"
+        },
+        "created_time": 1789466400,
+        "created_time_dt": "2026-09-15T10:00:00Z",
+        "desc": "**AWS root user** with active credentials is assessed for **MFA activation**. The evaluation considers whether the root identity has a password or access keys and whether **MFA is enabled**.\n\n*If centralized root access is enabled in Organizations, the presence of individual root credentials is also noted.*",
+        "title": "Root account has MFA enabled",
+        "types": [
+            "Software and Configuration Checks/AWS Security Best Practices",
+            "Software and Configuration Checks/Industry and Regulatory Standards/AWS Foundational Security Best Practices",
+            "Software and Configuration Checks/Industry and Regulatory Standards/CIS AWS Foundations Benchmark"
+        ],
+        "uid": "prowler-aws-iam_root_mfa_enabled-111111111111-us-east-1-<root_account>"
+    },
+    "resources": [
+        {
+            "cloud_partition": "aws",
+            "region": "us-east-1",
+            "data": {
+                "details": "",
+                "metadata": {}
+            },
+            "group": {
+                "name": "iam"
+            },
+            "labels": [],
+            "name": "<root_account>",
+            "type": "AwsIamUser",
+            "uid": "arn:aws:iam::111111111111:root"
+        }
+    ],
+    "category_name": "Findings",
+    "category_uid": 2,
+    "class_name": "Detection Finding",
+    "class_uid": 2004,
+    "cloud": {
+        "account": {
+            "name": "k9-sandbox-1",
+            "type": "AWS Account",
+            "type_id": 10,
+            "uid": "111111111111",
+            "labels": []
+        },
+        "org": {
+            "name": "",
+            "ou_uid": "",
+            "ou_name": "",
+            "uid": ""
+        },
+        "provider": "aws",
+        "region": "us-east-1"
+    },
+    "remediation": {
+        "desc": "Enable **MFA** for the root user, preferably **hardware-based** or a dedicated, managed device. Remove root access keys and avoid using root for daily tasks. Apply **least privilege** with IAM Identity Center for admins, and use Organizations to **centralize root access** and eliminate long-lived root credentials.",
+        "references": [
+            "https://hub.prowler.com/check/iam_root_mfa_enabled"
+        ]
+    },
+    "risk_details": "Without **MFA**, compromise of the root password or access keys can lead to full **account takeover**. An attacker with root can disable protections, steal or delete data, change billing, and create persistent admins, undermining confidentiality, integrity, and availability.",
+    "time": 1789466400,
+    "time_dt": "2026-09-15T10:00:00Z",
+    "type_uid": 200401,
+    "type_name": "Detection Finding: Create"
+}]

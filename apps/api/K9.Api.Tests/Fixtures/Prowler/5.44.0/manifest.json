@@ -1,0 +1,63 @@
+{
+  "generator": "tools/prowler-fixtures/generate.py",
+  "prowler": "5.44.0",
+  "py-ocsf-models": "0.10.0",
+  "note": "Synthetic results passed through Prowler's real finding and OCSF output code. Real CLI exports carry time_dt in the scanning machine's local time without an offset; these carry UTC with an offset.",
+  "fixtures": [
+    {
+      "file": "aws-a-t1-baseline.ocsf.json",
+      "description": "Account A, first scan: PASS, FAIL, MANUAL and muted results; global (IAM) and regional resources; two access keys sharing one ARN; one ARN reported in two regions.",
+      "findings": 10
+    },
+    {
+      "file": "aws-a-t2-followup.ocsf.json",
+      "description": "Account A, a week later: fixes, a PASS-to-FAIL regression, a missing resource (sg-0a1), a muted PASS, and the two regions of one ARN moving in opposite directions.",
+      "findings": 9
+    },
+    {
+      "file": "aws-a-t2-reexport.ocsf.json",
+      "description": "The T2 scan exported again: the same observations in a different order with a different random scan ID. Semantically identical to aws-a-t2-followup, but not byte-identical.",
+      "findings": 9
+    },
+    {
+      "file": "aws-a-t3-third.ocsf.json",
+      "description": "Account A, third scan: k9-logs fails again after being fixed, sg-0a1 comes back as MANUAL, root MFA passes.",
+      "findings": 3
+    },
+    {
+      "file": "aws-a-t2-conflict.ocsf.json",
+      "description": "Claims the same scan time as aws-a-t2-followup but reports k9-logs as FAIL: a conflict.",
+      "findings": 1
+    },
+    {
+      "file": "aws-b-t1-baseline.ocsf.json",
+      "description": "Account B, first scan, with a security group ID that also exists in account A.",
+      "findings": 3
+    },
+    {
+      "file": "aws-multi-account.ocsf.json",
+      "description": "Accounts A and B in one file, each with its own scan time.",
+      "findings": 6
+    },
+    {
+      "file": "aws-prowler-uid-collision.ocsf.json",
+      "description": "Two different resources (different ARNs) with the same check, account, region and resource name. Prowler gives both the same finding UID; K9 must keep them apart.",
+      "findings": 2
+    },
+    {
+      "file": "aws-in-file-duplicate.ocsf.json",
+      "description": "The same observation twice in one file (identical content).",
+      "findings": 2
+    },
+    {
+      "file": "aws-in-file-contradiction.ocsf.json",
+      "description": "The same resource and check twice in one scan with different results.",
+      "findings": 2
+    },
+    {
+      "file": "azure-unsupported.ocsf.json",
+      "description": "An Azure finding. K9 V1 supports AWS only and must reject it.",
+      "findings": 1
+    }
+  ]
+}
